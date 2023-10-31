@@ -6,10 +6,13 @@ using UnityEngine;
 public class BondManager : MonoBehaviour
 {
     [SerializeField] Sprite[] aa;
+    [SerializeField] GameObject bond;
+    [SerializeField] GameObject bondBridge;
 
     // Start is called before the first frame update
     void Start()
     {
+        Instantiate(bond, new Vector3(0f, -2f, 0f), Quaternion.identity);
     }
 
     public int GetRandAA()
@@ -22,9 +25,6 @@ public class BondManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.D))
-        {
-            Debug.Log(aa[GetRandAA()].name);
-        }
+        
     }
 }
