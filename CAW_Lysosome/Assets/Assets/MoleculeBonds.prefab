@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7651906171891203561}
   - component: {fileID: 3243048624383702485}
   - component: {fileID: 9198082772757582692}
+  - component: {fileID: 8450339604657999107}
   m_Layer: 0
   m_Name: MoleculeBonds
   m_TagString: Untagged
@@ -93,3 +94,15 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1392206234884414276}
   m_CullTransparentMesh: 1
+--- !u!114 &8450339604657999107
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1392206234884414276}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 106da47697c2cdc43a39b3406836afe4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
