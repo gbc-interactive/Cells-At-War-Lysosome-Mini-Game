@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data.Common;
@@ -7,6 +8,12 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     bool isAtPressStation;
+    GameObject currentBond;
+    int clicks;
+    float time;
+
+    int multiplierForTimeDecrease = 0;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -14,17 +21,33 @@ public class Player : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    public void Update()
     {
         if (!isAtPressStation)
         {
+            clicks= 0;
             MoveRight(3);
         }
         else if (isAtPressStation) 
         {
+            time++;
             MoveRight(0.005f);
-            Debug.Log("At station");
 
+            if (time > 1000 / multiplierForTimeDecrease)
+            {
+                Debug.Log("Dead");
+            }
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                clicks++;
+                
+                if (clicks >= 10) 
+                {
+                    Destroy(currentBond);
+                    time = 0;
+                    currentBond = null;
+                }
+            }
         }
     }
 
@@ -34,15 +57,13 @@ public class Player : MonoBehaviour
         transform.position = new Vector3(x += speed * Time.deltaTime, -2, 0);
     }
 
-    public void OnTriggerStay2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Station")
         {
-            isAtPressStation= true;
-            if (Input.GetKey(KeyCode.Space))
-            {
-                Destroy(collision.gameObject);
-            }
+            isAtPressStation = true;
+            currentBond= collision.gameObject;
+            multiplierForTimeDecrease++;
         }
     }
 
@@ -53,9 +74,6 @@ public class Player : MonoBehaviour
             isAtPressStation = false;
         }
     }
-
-
-
 }
 
 
