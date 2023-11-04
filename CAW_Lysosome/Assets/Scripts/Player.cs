@@ -1,11 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Data.Common;
+using UnityEditor.Search;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] float playerSpeed = 3f;
     bool isAtPressStation;
     // Start is called before the first frame update
     void Start()
@@ -18,29 +18,44 @@ public class Player : MonoBehaviour
     {
         if (!isAtPressStation)
         {
-            MoveRight();
+            MoveRight(3);
         }
         else if (isAtPressStation) 
         {
+            MoveRight(0.005f);
             Debug.Log("At station");
-            if (Input.GetKeyUp(KeyCode.Space))
+
+        }
+    }
+
+    private void MoveRight(float speed)
+    {
+        float x = transform.position.x;
+        transform.position = new Vector3(x += speed * Time.deltaTime, -2, 0);
+    }
+
+    public void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Station")
+        {
+            isAtPressStation= true;
+            if (Input.GetKey(KeyCode.Space))
             {
-                isAtPressStation= true;
+                Destroy(collision.gameObject);
             }
         }
     }
 
-    private void MoveRight()
-    {
-        float x = transform.position.x;
-        transform.position = new Vector3(x += playerSpeed * Time.deltaTime, -2, 0);
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
+    public void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Station")
         {
-            isAtPressStation = true;
+            isAtPressStation = false;
         }
     }
+
+
+
 }
+
+

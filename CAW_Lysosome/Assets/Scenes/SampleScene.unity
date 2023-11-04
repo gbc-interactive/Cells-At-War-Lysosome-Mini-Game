@@ -173,7 +173,7 @@ MonoBehaviour:
   - {fileID: 7505362207589499624, guid: a135015d03761c14d871206a9fd75b99, type: 3}
   - {fileID: 7740005180544507696, guid: 9833c4e47a2de0243b9821e168c859d2, type: 3}
   - {fileID: 1318618449540939169, guid: 550f6d65c67f27b499471022e735e22e, type: 3}
-  bond: {fileID: 286250965432829076, guid: 1f39d6ad14d866d4b80fcd1ceb4049a5, type: 3}
+  bondPref: {fileID: 286250965432829076, guid: 1f39d6ad14d866d4b80fcd1ceb4049a5, type: 3}
   bondBridge: {fileID: 1392206234884414276, guid: 3587d1a69dc6e404a8ca886e23d398fb, type: 3}
   playerPos: {x: 0, y: 0, z: 0}
 --- !u!4 &221115100
@@ -453,7 +453,7 @@ Canvas:
   m_GameObject: {fileID: 1903999610}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
+  m_RenderMode: 1
   m_Camera: {fileID: 0}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
@@ -548,8 +548,8 @@ PrefabInstance:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 6814849081626638938}
   - {fileID: 1903999614}
   - {fileID: 1092393357}
   - {fileID: 283951182}
-  - {fileID: 6814849081626638938}
   - {fileID: 221115100}
