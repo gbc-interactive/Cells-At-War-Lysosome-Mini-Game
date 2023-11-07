@@ -10,11 +10,20 @@ public class BondManager : MonoBehaviour
     [SerializeField] GameObject bondBridge;
 
     [SerializeField] Vector3 playerPos;
+    static bool gameStart;
 
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(SpawnBondBridgeAA());
+        if (gameStart)
+        {
+            StartCoroutine(SpawnBondBridgeAA());
+        }
+    }
+
+    static public void SetGameStart(bool b)
+    {
+        gameStart = b;
     }
 
     public int GetRandAA()

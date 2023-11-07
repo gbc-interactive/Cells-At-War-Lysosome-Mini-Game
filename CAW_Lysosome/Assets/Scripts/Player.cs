@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data.Common;
 using UnityEditor.Search;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -48,7 +49,7 @@ public class Player : MonoBehaviour
             float test = timeForDecreasing / multiplierForTimeDecrease;
             if (time > test)
             {
-                Debug.Log("Dead");
+                SceneManager.LoadScene("LoseScene");
             }
             if (Input.GetKeyDown(KeyCode.Space))
             {
