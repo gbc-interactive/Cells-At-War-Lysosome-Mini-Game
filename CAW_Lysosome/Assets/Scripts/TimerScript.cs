@@ -19,13 +19,15 @@ public class TimerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (TimerOn)
-        {
-            if (TimeLeft > 0)
-            {
-                TimeLeft -= Time.deltaTime;
-                UpdateTimer(TimeLeft);
-            }
+        Timer();
+    }
+
+    private void Timer()
+    {
+        if (TimerOn && TimeLeft > 0)
+        {      
+             TimeLeft -= Time.deltaTime;
+             UpdateTimer(TimeLeft);
         }
     }
 

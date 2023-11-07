@@ -8,18 +8,12 @@ public class DestroySelf : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(Die());
+        StartCoroutine(EndSelf());
     }
 
-    IEnumerator Die()
+    IEnumerator EndSelf()
     {
         yield return new WaitForSeconds(20);
         Destroy(this.gameObject);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

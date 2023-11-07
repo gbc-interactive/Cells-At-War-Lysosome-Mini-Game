@@ -35,8 +35,8 @@ public class BondManager : MonoBehaviour
 
         AminoAcid.transform.SetParent(bondBr.transform, false);
         AminoAcid.transform.position = new Vector3(playerPos.x + 21, -2f, 0f);
-
         yield return new WaitForSeconds(2);
+
         StartCoroutine(SpawnBondBridgeAA());
     }
 

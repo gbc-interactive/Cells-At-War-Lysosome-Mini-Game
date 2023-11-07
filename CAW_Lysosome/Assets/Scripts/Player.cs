@@ -9,10 +9,17 @@ public class Player : MonoBehaviour
 {
     bool isAtPressStation;
     GameObject currentBond;
+    
     int clicks;
-    float time;
+    int clicksHigherThan = 10;
+    int timeForDecreasing = 2000;
+    private const int MoveSpeed = 3;
 
-    int multiplierForTimeDecrease = 0;
+    private const float addedToMultiplierTimeDecrease = 0.33f;
+    private const float StuckSpeed = 0.005f;
+    
+    float time;
+    float multiplierForTimeDecrease = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -23,25 +30,31 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     public void Update()
     {
+        BondStationCheck();
+    }
+
+    private void BondStationCheck()
+    {
         if (!isAtPressStation)
         {
-            clicks= 0;
-            MoveRight(3);
+            clicks = 0;
+            MoveRight(MoveSpeed);
         }
-        else if (isAtPressStation) 
+        else if (isAtPressStation)
         {
             time++;
-            MoveRight(0.005f);
+            MoveRight(StuckSpeed);
 
-            if (time > 1000 / multiplierForTimeDecrease)
+            float test = timeForDecreasing / multiplierForTimeDecrease;
+            if (time > test)
             {
                 Debug.Log("Dead");
             }
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 clicks++;
-                
-                if (clicks >= 10) 
+
+                if (clicks >= clicksHigherThan)
                 {
                     Destroy(currentBond);
                     time = 0;
@@ -63,7 +76,7 @@ public class Player : MonoBehaviour
         {
             isAtPressStation = true;
             currentBond= collision.gameObject;
-            multiplierForTimeDecrease++;
+            multiplierForTimeDecrease+= addedToMultiplierTimeDecrease;
         }
     }
 
