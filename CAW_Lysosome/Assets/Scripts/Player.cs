@@ -3,11 +3,17 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data.Common;
 using UnityEditor.Search;
+using UnityEngine.UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
+    [SerializeField]Canvas canvas;
+
+    [SerializeField] Image clicksBlock;
+    [SerializeField] Image timeLeftBlock;
+
     bool isAtPressStation;
     GameObject currentBond;
     
@@ -32,6 +38,9 @@ public class Player : MonoBehaviour
     public void Update()
     {
         BondStationCheck();
+
+        clicksBlock.fillAmount = clicks / 10f;
+        timeLeftBlock.fillAmount = time / 60f;
     }
 
     private void BondStationCheck()
