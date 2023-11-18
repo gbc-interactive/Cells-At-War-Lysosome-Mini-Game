@@ -12,6 +12,8 @@ public class TimerScript : MonoBehaviour
     public Text timerText;
     static bool gameStart;
 
+    float minutes;
+    float seconds;
     // Start is called before the first frame update
     void Start()
     {
@@ -24,6 +26,11 @@ public class TimerScript : MonoBehaviour
     static public void SetGameStart(bool b)
     {
         gameStart = b;
+    }
+
+    public void IncreaseTimer(float addedTime)
+    {
+        seconds+= addedTime;
     }
 
     // Update is called once per frame
@@ -50,8 +57,8 @@ public class TimerScript : MonoBehaviour
     {
         currentTime += 1;
 
-        float minutes = Mathf.FloorToInt(currentTime / 60);
-        float seconds = Mathf.FloorToInt(currentTime % 60);
+        minutes = Mathf.FloorToInt(currentTime / 60);
+        seconds = Mathf.FloorToInt(currentTime % 60);
 
         timerText.text = string.Format("{0:00} : {1:00}", minutes, seconds);
     }

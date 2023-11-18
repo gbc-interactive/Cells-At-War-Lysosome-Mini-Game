@@ -6,13 +6,15 @@ using UnityEditor.Search;
 using UnityEngine.UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
+using TreeEditor;
 
 public class Player : MonoBehaviour
 {
     [SerializeField]Canvas canvas;
 
-    [SerializeField] Image clicksBlock;
-    [SerializeField] Image timeLeftBlock;
+    [SerializeField] UnityEngine.UI.Image clicksBlock;
+    [SerializeField] UnityEngine.UI.Image timeLeftBlock;
 
     bool isAtPressStation;
     GameObject currentBond;
@@ -24,9 +26,13 @@ public class Player : MonoBehaviour
 
     private const float addedToMultiplierTimeDecrease = 0.33f;
     private const float StuckSpeed = 0.005f;
-    
+
+    public int coroutineRuns;
+
     float time;
     float multiplierForTimeDecrease = 0;
+
+    float timeIncrease;
 
     // Start is called before the first frame update
     void Start()
@@ -38,9 +44,15 @@ public class Player : MonoBehaviour
     public void Update()
     {
         BondStationCheck();
+        transform.position = new Vector3(transform.position.x, BondManager.GetRandomY(), 0);
 
         clicksBlock.fillAmount = clicks / 10f;
         timeLeftBlock.fillAmount = time / 60f;
+    }
+
+    public float GetX()
+    {
+        return transform.position.x;
     }
 
     private void BondStationCheck()
@@ -58,7 +70,7 @@ public class Player : MonoBehaviour
             float test = timeForDecreasing / multiplierForTimeDecrease;
             if (time > test)
             {
-                SceneManager.LoadScene("LoseScene");
+                //SceneManager.LoadScene("LoseScene");
             }
             if (Input.GetKeyDown(KeyCode.Space))
             {
@@ -69,6 +81,13 @@ public class Player : MonoBehaviour
                     Destroy(currentBond);
                     time = 0;
                     currentBond = null;
+                    coroutineRuns--;
+
+                    if (coroutineRuns < 1)
+                    {
+                        BondManager.SetBondsCompleted();
+                        FindObjectOfType<TimerScript>().IncreaseTimer(timeIncrease);
+                    }
                 }
             }
         }
@@ -78,6 +97,17 @@ public class Player : MonoBehaviour
     {
         float x = transform.position.x;
         transform.position = new Vector3(x += speed * Time.deltaTime, -2, 0);
+    }
+
+    public void SetCoroutineRuns(int runs, float increase)
+    {
+        coroutineRuns= runs;
+        timeIncrease = increase;
+    }
+
+    public void SetNewYValue(float Y)
+    {
+        transform.position = new Vector3(transform.position.x, Y, 0);    
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
