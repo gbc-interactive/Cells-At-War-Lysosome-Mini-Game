@@ -24,6 +24,8 @@ public class BondManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Physics2D.gravity = new Vector2(-9.81f, 0);
+
         if (gameStart)
         {
             minBondSpawnAmt = 3;
@@ -82,6 +84,7 @@ public class BondManager : MonoBehaviour
         for (int i = 1; i < runs+1; i++)
         {
             GameObject bond = Instantiate(bondPref) as GameObject;
+            bond.GetComponent<Rigidbody2D>().gravityScale = 0f;
             if (i == 1)
             {
                 bond.transform.position = new Vector3(x + distanceBetweenBonds, randomizedNewLocationY, 0);

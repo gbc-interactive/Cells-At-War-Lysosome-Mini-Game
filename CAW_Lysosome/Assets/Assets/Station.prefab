@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: -2128060707378417694}
   - component: {fileID: 3895222340744271918}
   - component: {fileID: 4378215552038110565}
+  - component: {fileID: 9111350283177451513}
   m_Layer: 0
   m_Name: Station
   m_TagString: Station
@@ -180,6 +181,33 @@ MonoBehaviour:
   - {fileID: 7740005180544507696, guid: 9833c4e47a2de0243b9821e168c859d2, type: 3}
   - {fileID: 1318618449540939169, guid: 550f6d65c67f27b499471022e735e22e, type: 3}
   aaLocation: {fileID: 7490275440928690057}
+--- !u!50 &9111350283177451513
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 286250965432829076}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &7490275440928690057
 GameObject:
   m_ObjectHideFlags: 0
