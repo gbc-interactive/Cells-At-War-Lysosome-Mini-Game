@@ -6,6 +6,7 @@ using UnityEngine;
 public class SpawnAA : MonoBehaviour
 {
     [SerializeField] GameObject[] aa;
+    [SerializeField] GameObject aaLocation;
 
     // Start is called before the first frame update
     void Start()
@@ -13,7 +14,7 @@ public class SpawnAA : MonoBehaviour
         GameObject AminoAcid = Instantiate(aa[GetRandAA()]) as GameObject;
         
         AminoAcid.transform.SetParent(gameObject.transform, false);
-        AminoAcid.transform.position = gameObject.transform.position + new Vector3(1.5f, -1.8f);
+        AminoAcid.transform.position = aaLocation.transform.position;   
     }
 
     // Update is called once per frame

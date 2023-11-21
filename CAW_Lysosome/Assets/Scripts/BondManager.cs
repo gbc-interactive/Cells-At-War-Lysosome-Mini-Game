@@ -7,8 +7,9 @@ using UnityEngine;
 public class BondManager : MonoBehaviour
 {
     [SerializeField] GameObject bondPref;
-    [SerializeField] int minBondSpawnAmt = 3;
-    [SerializeField] int maxBondSpawnAmt = 6;
+    [SerializeField] GameObject endStream;
+    int minBondSpawnAmt;
+    int maxBondSpawnAmt;
 
     int distanceBetweenBonds = 6;
 
@@ -25,6 +26,9 @@ public class BondManager : MonoBehaviour
     {
         if (gameStart)
         {
+            minBondSpawnAmt = 3;
+            maxBondSpawnAmt = 6;
+
             SetupStream();
         }
     }
@@ -65,7 +69,7 @@ public class BondManager : MonoBehaviour
         randomizedNewLocationY = UnityEngine.Random.Range(-6, 6);
 
         currentStreamLength = GetRandomSpawnAmt();
-        FindObjectOfType<Player>().SetCoroutineRuns(currentStreamLength, currentStreamLength);
+        FindObjectOfType<Player>().SetCoroutineRuns(currentStreamLength-1, currentStreamLength-1);
 
         float x = playerPos.x;
         CreateStream(currentStreamLength);
@@ -85,10 +89,32 @@ public class BondManager : MonoBehaviour
             else
             {
                 bond.transform.position = new Vector3(x + (distanceBetweenBonds * i) , randomizedNewLocationY, 0);
+
+                if (i == runs)
+                {
+                    for (int c = 0; c < bond.transform.childCount; c++) 
+                    {
+                        Destroy(bond.transform.GetChild(c).gameObject); // For the final bond per stream
+                        bond.GetComponent<BoxCollider2D>().enabled = false;
+                    }
+                }
             }
         }
     }
 
+    public void SendBondToLeft(GameObject obj)
+    {
+        foreach (Transform child in obj.transform)
+        {
+            if (child.tag == "Bond")
+            {
+                //Destroy(child.gameObject);
+                //child.transform.SetParent(null, false);
+            }
+        }
+        Destroy(obj);
+        obj = null;
+    }    
     static public void SetBondsCompleted()
     {
         allBondsCompleted = true;

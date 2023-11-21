@@ -123,6 +123,11 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!4 &188920981 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2291870608334942294, guid: e4bea973af4c2624584d410667e52eef, type: 3}
+  m_PrefabInstance: {fileID: 9149157065980967011}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &221115098
 GameObject:
   m_ObjectHideFlags: 0
@@ -153,8 +158,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bondPref: {fileID: 286250965432829076, guid: 1f39d6ad14d866d4b80fcd1ceb4049a5, type: 3}
-  minBondSpawnAmt: 3
-  maxBondSpawnAmt: 10
+  endStream: {fileID: 1392206234884414276, guid: 4d1f15661e6248a48bff8695d73d83e9, type: 3}
   playerPos: {x: 0, y: 0, z: 0}
 --- !u!4 &221115100
 Transform:
@@ -880,6 +884,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Main Camera
       objectReference: {fileID: 0}
+    - target: {fileID: 7773954817322825780, guid: 892c5387baf6b1c4d9b8da9f925ae964, type: 3}
+      propertyPath: target
+      value: 
+      objectReference: {fileID: 188920981}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

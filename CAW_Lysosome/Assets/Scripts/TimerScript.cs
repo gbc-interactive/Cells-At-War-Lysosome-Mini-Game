@@ -30,7 +30,7 @@ public class TimerScript : MonoBehaviour
 
     public void IncreaseTimer(float addedTime)
     {
-        seconds+= addedTime;
+        TimeLeft+= addedTime;
     }
 
     // Update is called once per frame

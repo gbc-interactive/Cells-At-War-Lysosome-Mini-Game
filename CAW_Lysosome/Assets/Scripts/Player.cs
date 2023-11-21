@@ -47,7 +47,6 @@ public class Player : MonoBehaviour
         transform.position = new Vector3(transform.position.x, BondManager.GetRandomY(), 0);
 
         clicksBlock.fillAmount = clicks / 10f;
-        timeLeftBlock.fillAmount = time / 60f;
     }
 
     public float GetX()
@@ -66,11 +65,13 @@ public class Player : MonoBehaviour
         {
             time++;
             MoveRight(StuckSpeed);
-
             float test = timeForDecreasing / multiplierForTimeDecrease;
+            //Debug.Log(time + "/" + test);
+            timeLeftBlock.fillAmount = time / test;
+
             if (time > test)
             {
-                //SceneManager.LoadScene("LoseScene");
+                SceneManager.LoadScene("LoseScene");
             }
             if (Input.GetKeyDown(KeyCode.Space))
             {
@@ -78,9 +79,10 @@ public class Player : MonoBehaviour
 
                 if (clicks >= clicksHigherThan)
                 {
-                    Destroy(currentBond);
+                    FindObjectOfType<BondManager>().SendBondToLeft(currentBond);
+                    //Destroy(currentBond);
                     time = 0;
-                    currentBond = null;
+                    //currentBond = null;
                     coroutineRuns--;
 
                     if (coroutineRuns < 1)
