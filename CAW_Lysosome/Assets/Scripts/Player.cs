@@ -80,9 +80,7 @@ public class Player : MonoBehaviour
                 if (clicks >= clicksHigherThan)
                 {
                     FindObjectOfType<BondManager>().SendBondToLeft(currentBond);
-                    //Destroy(currentBond);
                     time = 0;
-                    //currentBond = null;
                     coroutineRuns--;
 
                     if (coroutineRuns < 1)

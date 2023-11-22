@@ -111,12 +111,12 @@ public class BondManager : MonoBehaviour
         {
             if (child.tag == "Bond")
             {
-                //Destroy(child.gameObject);
+                Destroy(child.gameObject);
                 //child.transform.SetParent(null, false);
             }
         }
-        Destroy(obj);
-        obj = null;
+        Destroy(obj.GetComponent<BoxCollider2D>());
+        obj.GetComponent<Rigidbody2D>().gravityScale = 1;
     }    
     static public void SetBondsCompleted()
     {
