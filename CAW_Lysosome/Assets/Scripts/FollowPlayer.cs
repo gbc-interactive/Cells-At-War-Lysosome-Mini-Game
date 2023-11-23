@@ -22,8 +22,4 @@ public class FollowPlayer : MonoBehaviour
         transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime);
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        
-    }
 }

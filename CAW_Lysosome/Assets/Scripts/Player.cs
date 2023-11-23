@@ -85,6 +85,9 @@ public class Player : MonoBehaviour
 
                     if (coroutineRuns < 1)
                     {
+                        GameObject go = GameObject.FindGameObjectWithTag("last");
+                        StartCoroutine(FindObjectOfType<BondManager>().WaitForSecond(go));
+
                         BondManager.SetBondsCompleted();
                         FindObjectOfType<TimerScript>().IncreaseTimer(timeIncrease);
                     }

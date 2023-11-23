@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class BondManager : MonoBehaviour
 {
@@ -95,6 +96,8 @@ public class BondManager : MonoBehaviour
 
                 if (i == runs)
                 {
+                    bond.gameObject.tag = "last";
+
                     for (int c = 0; c < bond.transform.childCount; c++) 
                     {
                         Destroy(bond.transform.GetChild(c).gameObject); // For the final bond per stream
@@ -105,6 +108,12 @@ public class BondManager : MonoBehaviour
         }
     }
 
+    public IEnumerator WaitForSecond(GameObject Obj)
+    {
+        yield return new WaitForSeconds(1);
+        Obj.GetComponent<Rigidbody2D>().gravityScale = 1;
+    }
+
     public void SendBondToLeft(GameObject obj)
     {
         foreach (Transform child in obj.transform)
@@ -112,12 +121,12 @@ public class BondManager : MonoBehaviour
             if (child.tag == "Bond")
             {
                 Destroy(child.gameObject);
-                //child.transform.SetParent(null, false);
             }
         }
-        Destroy(obj.GetComponent<BoxCollider2D>());
+        obj.GetComponent<BoxCollider2D>().enabled = false;
         obj.GetComponent<Rigidbody2D>().gravityScale = 1;
     }    
+
     static public void SetBondsCompleted()
     {
         allBondsCompleted = true;
