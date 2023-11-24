@@ -9,6 +9,8 @@ TagManager:
   - Background
   - NextBond
   - Bond
+  - last
+  - ForcePoint
   layers:
   - Default
   - TransparentFX

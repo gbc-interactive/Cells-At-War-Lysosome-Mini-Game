@@ -20,11 +20,11 @@ public class Player : MonoBehaviour
     GameObject currentBond;
     
     int clicks;
-    int clicksHigherThan = 10;
-    int timeForDecreasing = 2000;
-    private const int MoveSpeed = 3;
+    [SerializeField ]int clicksHigherThan = 10;
+    [SerializeField] int timeForDecreasing = 2000;
+    [SerializeField] private int MoveSpeed = 3;
 
-    private const float addedToMultiplierTimeDecrease = 0.33f;
+    [SerializeField]private float addedToMultiplierTimeDecrease = 0.33f;
     private const float StuckSpeed = 0.005f;
 
     public int coroutineRuns;
@@ -86,6 +86,7 @@ public class Player : MonoBehaviour
                     if (coroutineRuns < 1)
                     {
                         GameObject go = GameObject.FindGameObjectWithTag("last");
+
                         StartCoroutine(FindObjectOfType<BondManager>().WaitForSecond(go));
 
                         BondManager.SetBondsCompleted();

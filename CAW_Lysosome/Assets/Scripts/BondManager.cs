@@ -12,7 +12,7 @@ public class BondManager : MonoBehaviour
     int minBondSpawnAmt;
     int maxBondSpawnAmt;
 
-    int distanceBetweenBonds = 6;
+    float distanceBetweenBonds = 5.5f;
 
     static public int currentStreamLength;
     static bool allBondsCompleted;   
@@ -111,6 +111,7 @@ public class BondManager : MonoBehaviour
     public IEnumerator WaitForSecond(GameObject Obj)
     {
         yield return new WaitForSeconds(1);
+        CreateExplosion(Obj);
         Obj.GetComponent<Rigidbody2D>().gravityScale = 1;
     }
 
@@ -125,7 +126,32 @@ public class BondManager : MonoBehaviour
         }
         obj.GetComponent<BoxCollider2D>().enabled = false;
         obj.GetComponent<Rigidbody2D>().gravityScale = 1;
-    }    
+        CreateExplosion(obj);
+
+    }
+
+    public void CreateExplosion(GameObject obj)
+    {
+        int randExplosion = UnityEngine.Random.Range(1, 4);
+
+        switch (randExplosion)
+        {
+            case 1:
+                obj.GetComponent<Rigidbody2D>().AddForceAtPosition(Vector2.down * UnityEngine.Random.Range(1, 10), Vector2.right);
+                break;
+            case 2:
+                obj.GetComponent<Rigidbody2D>().AddForceAtPosition(Vector2.up * UnityEngine.Random.Range(1, 10), Vector2.right);
+                break;
+            case 3:
+                obj.GetComponent<Rigidbody2D>().AddForceAtPosition(Vector2.left * UnityEngine.Random.Range(1, 10), Vector2.right);
+                break;
+            case 4:
+                obj.GetComponent<Rigidbody2D>().AddForceAtPosition(Vector2.right * UnityEngine.Random.Range(1, 10), Vector2.right);
+                break;
+            default:
+                break;
+        }
+    }
 
     static public void SetBondsCompleted()
     {
