@@ -111,7 +111,10 @@ public class BondManager : MonoBehaviour
     public IEnumerator WaitForSecond(GameObject Obj)
     {
         yield return new WaitForSeconds(1);
-        CreateExplosion(Obj);
+        if (Obj != null)
+        {
+            CreateExplosion(Obj);
+        }
         Obj.GetComponent<Rigidbody2D>().gravityScale = 1;
     }
 

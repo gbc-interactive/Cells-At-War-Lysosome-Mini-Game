@@ -2,23 +2,31 @@ using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data.Common;
-using UnityEditor.Search;
 using UnityEngine.UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
-using TreeEditor;
+using TMPro;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField]Canvas canvas;
+    [SerializeField] Canvas canvas;
+    [SerializeField] TextMeshProUGUI currentKeyText;
 
     [SerializeField] UnityEngine.UI.Image clicksBlock;
     [SerializeField] UnityEngine.UI.Image timeLeftBlock;
+    [SerializeField] UnityEngine.UI.Image TimeBeforeStunBlock;
 
     bool isAtPressStation;
     GameObject currentBond;
-    
+
+    KeyCode currentKey;
+    bool callFuncOnce;
+
+    float timeBeforeStun = 1500f;
+    float stunTime = 2;
+    bool canClick;
+
     int clicks;
     [SerializeField ]int clicksHigherThan = 10;
     [SerializeField] int timeForDecreasing = 2000;
@@ -30,6 +38,7 @@ public class Player : MonoBehaviour
     public int coroutineRuns;
 
     float time;
+    float time_ForStun;
     float multiplierForTimeDecrease = 0;
 
     float timeIncrease;
@@ -37,6 +46,8 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        canClick = true;
+        callFuncOnce = false;
         isAtPressStation= false;
     }
 
@@ -58,30 +69,51 @@ public class Player : MonoBehaviour
     {
         if (!isAtPressStation)
         {
+            currentKeyText.text = "";
             clicks = 0;
             MoveRight(MoveSpeed);
         }
         else if (isAtPressStation)
         {
             time++;
+            time_ForStun++;
+            
             MoveRight(StuckSpeed);
             float test = timeForDecreasing / multiplierForTimeDecrease;
-            //Debug.Log(time + "/" + test);
+            
             timeLeftBlock.fillAmount = time / test;
+            TimeBeforeStunBlock.fillAmount = time / timeBeforeStun;
 
             if (time > test)
             {
                 SceneManager.LoadScene("LoseScene");
             }
-            if (Input.GetKeyDown(KeyCode.Space))
+
+            if (time_ForStun > timeBeforeStun)
+            {
+                StartCoroutine(CanClickFalse());
+            }
+
+            if (callFuncOnce == false)
+            {
+                currentKey = GetRandKey();
+                currentKeyText.text = currentKey.ToString();
+                callFuncOnce = true;
+            }
+
+            if (Input.GetKeyDown(currentKey) && canClick)
             {
                 clicks++;
 
                 if (clicks >= clicksHigherThan)
                 {
                     FindObjectOfType<BondManager>().SendBondToLeft(currentBond);
+                    
                     time = 0;
+                    time_ForStun = 0;
+                    
                     coroutineRuns--;
+                    callFuncOnce = false;
 
                     if (coroutineRuns < 1)
                     {
@@ -90,11 +122,44 @@ public class Player : MonoBehaviour
                         StartCoroutine(FindObjectOfType<BondManager>().WaitForSecond(go));
 
                         BondManager.SetBondsCompleted();
-                        FindObjectOfType<TimerScript>().IncreaseTimer(timeIncrease);
+                        //FindObjectOfType<TimerScript>().IncreaseTimer(timeIncrease);
                     }
                 }
             }
         }
+    }
+
+    IEnumerator CanClickFalse()
+    {
+        canClick = false;
+        FindObjectOfType<FollowPlayer>().start = true;
+        yield return new WaitForSeconds(stunTime);
+        canClick = true;
+
+        time_ForStun = 0;
+    }
+
+    public KeyCode GetRandKey()
+    {
+        var randKey = (int)UnityEngine.Random.Range(0, 4);
+
+        switch(randKey)
+        {
+            case 0:
+                currentKey = KeyCode.W;
+                break;
+            case 1:
+                currentKey = KeyCode.A;
+                break;
+            case 2:
+                currentKey = KeyCode.S;
+                break;
+            case 3:
+                currentKey = KeyCode.D;
+                break;
+        }
+
+        return currentKey;
     }
 
     private void MoveRight(float speed)

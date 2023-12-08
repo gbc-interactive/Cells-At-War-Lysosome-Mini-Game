@@ -11,6 +11,9 @@ TagManager:
   - Bond
   - last
   - ForcePoint
+  - SpawnAnchor
+  - p1
+  - p2
   layers:
   - Default
   - TransparentFX
