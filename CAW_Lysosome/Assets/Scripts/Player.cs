@@ -5,11 +5,14 @@ using System.Data.Common;
 using UnityEngine.UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UIElements;
+//using UnityEngine.UIElements;
 using TMPro;
+using Unity.VisualScripting;
 
 public class Player : MonoBehaviour
 {
+    Animator animator;
+
     [SerializeField] Canvas canvas;
     [SerializeField] TextMeshProUGUI currentKeyText;
 
@@ -19,6 +22,16 @@ public class Player : MonoBehaviour
 
     bool isAtPressStation;
     GameObject currentBond;
+
+    [SerializeField] GameObject button1;
+    [SerializeField] GameObject button2;
+    [SerializeField] GameObject button3;
+    [SerializeField] GameObject button4;
+
+    Color r = Color.red;
+    Color g = Color.green;
+    Color b = Color.blue;
+    Color c = Color.magenta;
 
     KeyCode currentKey;
     bool callFuncOnce;
@@ -46,6 +59,8 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        animator= GetComponent<Animator>();
+
         canClick = true;
         callFuncOnce = false;
         isAtPressStation= false;
@@ -55,7 +70,7 @@ public class Player : MonoBehaviour
     public void Update()
     {
         BondStationCheck();
-        transform.position = new Vector3(transform.position.x, BondManager.GetRandomY(), 0);
+        transform.position = new Vector3(transform.position.x, BondManager.GetRandomY() - 1.5f, 0);
 
         clicksBlock.fillAmount = clicks / 10f;
     }
@@ -72,6 +87,11 @@ public class Player : MonoBehaviour
             currentKeyText.text = "";
             clicks = 0;
             MoveRight(MoveSpeed);
+
+            button1.GetComponent<Image>().color = r;
+            button2.GetComponent<Image>().color = g;
+            button3.GetComponent<Image>().color = b;
+            button4.GetComponent<Image>().color = c;
         }
         else if (isAtPressStation)
         {
@@ -97,7 +117,27 @@ public class Player : MonoBehaviour
             if (callFuncOnce == false)
             {
                 currentKey = GetRandKey();
-                currentKeyText.text = currentKey.ToString();
+
+                switch(currentKey)
+                {
+                    case KeyCode.UpArrow:
+                        currentKeyText.text = "U".ToString();
+                        button1.GetComponent<Image>().color = Color.black;
+                        break; 
+                    case KeyCode.DownArrow:
+                        currentKeyText.text = "D".ToString();
+                        button2.GetComponent<Image>().color = Color.black;
+                        break;
+                    case KeyCode.LeftArrow:
+                        currentKeyText.text = "L".ToString();
+                        button3.GetComponent<Image>().color = Color.black;
+                        break;
+                    case KeyCode.RightArrow:
+                        currentKeyText.text = "R".ToString();
+                        button4.GetComponent<Image>().color = Color.black;
+                        break;
+                }
+
                 callFuncOnce = true;
             }
 
@@ -107,26 +147,41 @@ public class Player : MonoBehaviour
 
                 if (clicks >= clicksHigherThan)
                 {
-                    FindObjectOfType<BondManager>().SendBondToLeft(currentBond);
-                    
-                    time = 0;
-                    time_ForStun = 0;
-                    
-                    coroutineRuns--;
-                    callFuncOnce = false;
-
-                    if (coroutineRuns < 1)
-                    {
-                        GameObject go = GameObject.FindGameObjectWithTag("last");
-
-                        StartCoroutine(FindObjectOfType<BondManager>().WaitForSecond(go));
-
-                        BondManager.SetBondsCompleted();
-                        //FindObjectOfType<TimerScript>().IncreaseTimer(timeIncrease);
-                    }
+                    StartCoroutine(FinalizeDestructionOfBond());
                 }
             }
         }
+    }
+
+    IEnumerator FinalizeDestructionOfBond()
+    {
+        StartCoroutine(Animation());
+        yield return new WaitForSeconds(0);
+
+        FindObjectOfType<BondManager>().SendBondToLeft(currentBond);
+
+        time = 0;
+        time_ForStun = 0;
+
+        coroutineRuns--;
+        callFuncOnce = false;
+
+        if (coroutineRuns < 1)
+        {
+            GameObject go = GameObject.FindGameObjectWithTag("last");
+
+            StartCoroutine(FindObjectOfType<BondManager>().WaitForSecond(go));
+
+            BondManager.SetBondsCompleted();
+            //FindObjectOfType<TimerScript>().IncreaseTimer(timeIncrease);
+        }
+    }
+
+    IEnumerator Animation()
+    {
+        animator.SetBool("bond", true);
+        yield return new WaitForSeconds(0.8f);
+        animator.SetBool("bond", false);
     }
 
     IEnumerator CanClickFalse()
@@ -146,16 +201,16 @@ public class Player : MonoBehaviour
         switch(randKey)
         {
             case 0:
-                currentKey = KeyCode.W;
+                currentKey = KeyCode.UpArrow;
                 break;
             case 1:
-                currentKey = KeyCode.A;
+                currentKey = KeyCode.LeftArrow;
                 break;
             case 2:
-                currentKey = KeyCode.S;
+                currentKey = KeyCode.DownArrow;
                 break;
             case 3:
-                currentKey = KeyCode.D;
+                currentKey = KeyCode.RightArrow;
                 break;
         }
 
@@ -194,6 +249,55 @@ public class Player : MonoBehaviour
         if (collision.gameObject.tag == "Station")
         {
             isAtPressStation = false;
+        }
+    }
+
+    public void Button1Clicked()
+    {
+        if (isAtPressStation && button1.GetComponent<Image>().color == Color.black && canClick)
+        {
+            clicks++;
+
+            if (clicks >= clicksHigherThan)
+            {
+                StartCoroutine(FinalizeDestructionOfBond());
+            }
+        }
+    }
+    public void Button2Clicked()
+    {
+        if (isAtPressStation && button2.GetComponent<Image>().color == Color.black && canClick)
+        {
+            clicks++;
+
+            if (clicks >= clicksHigherThan)
+            {
+                StartCoroutine(FinalizeDestructionOfBond());
+            }
+        }
+    }
+    public void Button3Clicked()
+    {
+        if (isAtPressStation && button3.GetComponent<Image>().color == Color.black && canClick)
+        {
+            clicks++;
+
+            if (clicks >= clicksHigherThan)
+            {
+                StartCoroutine(FinalizeDestructionOfBond());
+            }
+        }
+    }
+    public void Button4Clicked()
+    {
+        if (isAtPressStation && button4.GetComponent<Image>().color == Color.black && canClick)
+        {
+            clicks++;
+
+            if (clicks >= clicksHigherThan)
+            {
+                StartCoroutine(FinalizeDestructionOfBond());
+            }
         }
     }
 }
