@@ -63,8 +63,6 @@ public class BondManager : MonoBehaviour
         return corountineRepeats;
     }
 
-    
-
     public void SetupStream()
     {
         allBondsCompleted= false;
@@ -100,7 +98,10 @@ public class BondManager : MonoBehaviour
 
                     for (int c = 0; c < bond.transform.childCount; c++) 
                     {
-                        Destroy(bond.transform.GetChild(c).gameObject); // For the final bond per stream
+                        if (bond.transform.GetChild(c).gameObject.tag != "Connector")
+                        {
+                            Destroy(bond.transform.GetChild(c).gameObject); // For the final bond per stream
+                        }
                         bond.GetComponent<BoxCollider2D>().enabled = false;
                     }
                 }
@@ -118,19 +119,19 @@ public class BondManager : MonoBehaviour
         Obj.GetComponent<Rigidbody2D>().gravityScale = 1;
     }
 
-    public void SendBondToLeft(GameObject obj)
+    public IEnumerator SendBondToLeft(GameObject obj)
     {
         foreach (Transform child in obj.transform)
         {
             if (child.tag == "Bond")
             {
+                obj.GetComponent<BoxCollider2D>().enabled = false;
+                yield return new WaitForSeconds(0.1f);
                 Destroy(child.gameObject);
+                obj.GetComponent<Rigidbody2D>().gravityScale = 1;
+                CreateExplosion(obj);
             }
-        }
-        obj.GetComponent<BoxCollider2D>().enabled = false;
-        obj.GetComponent<Rigidbody2D>().gravityScale = 1;
-        CreateExplosion(obj);
-
+        } 
     }
 
     public void CreateExplosion(GameObject obj)

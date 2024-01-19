@@ -5,12 +5,25 @@ using System.Data.Common;
 using UnityEngine.UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-//using UnityEngine.UIElements;
 using TMPro;
 using Unity.VisualScripting;
+using UnityEngine.EventSystems;
 
 public class Player : MonoBehaviour
 {
+    [SerializeField] Sprite greenPressed;
+    [SerializeField] Sprite greenUnPressed;
+    [SerializeField] Sprite greenShine;
+    [SerializeField] Sprite redPressed;
+    [SerializeField] Sprite redUnPressed;
+    [SerializeField] Sprite redShine;
+    [SerializeField] Sprite bluePressed;
+    [SerializeField] Sprite blueUnPressed;
+    [SerializeField] Sprite blueShine;
+    [SerializeField] Sprite pinkPressed;
+    [SerializeField] Sprite pinkUnPressed;
+    [SerializeField] Sprite pinkShine;
+
     Animator animator;
 
     [SerializeField] Canvas canvas;
@@ -27,11 +40,6 @@ public class Player : MonoBehaviour
     [SerializeField] GameObject button2;
     [SerializeField] GameObject button3;
     [SerializeField] GameObject button4;
-
-    Color r = Color.red;
-    Color g = Color.green;
-    Color b = Color.blue;
-    Color c = Color.magenta;
 
     KeyCode currentKey;
     bool callFuncOnce;
@@ -59,7 +67,8 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        animator= GetComponent<Animator>();
+        animator = GetComponent<Animator>();
+        animator.Play("idle");
 
         canClick = true;
         callFuncOnce = false;
@@ -88,10 +97,15 @@ public class Player : MonoBehaviour
             clicks = 0;
             MoveRight(MoveSpeed);
 
-            button1.GetComponent<Image>().color = r;
-            button2.GetComponent<Image>().color = g;
-            button3.GetComponent<Image>().color = b;
-            button4.GetComponent<Image>().color = c;
+            button1.GetComponent<Image>().sprite = blueUnPressed;
+            button2.GetComponent<Image>().sprite = greenUnPressed;
+            button3.GetComponent<Image>().sprite = redUnPressed;
+            button4.GetComponent<Image>().sprite = pinkUnPressed;
+
+            button1.GetComponent<Image>().color = Color.white;
+            button2.GetComponent<Image>().color = Color.white;
+            button3.GetComponent<Image>().color = Color.white;
+            button4.GetComponent<Image>().color = Color.white;
         }
         else if (isAtPressStation)
         {
@@ -122,43 +136,33 @@ public class Player : MonoBehaviour
                 {
                     case KeyCode.UpArrow:
                         currentKeyText.text = "U".ToString();
-                        button1.GetComponent<Image>().color = Color.black;
+                        button1.GetComponent<Image>().sprite = blueShine;
                         break; 
                     case KeyCode.DownArrow:
                         currentKeyText.text = "D".ToString();
-                        button2.GetComponent<Image>().color = Color.black;
+                        button2.GetComponent<Image>().sprite= greenShine;
                         break;
                     case KeyCode.LeftArrow:
                         currentKeyText.text = "L".ToString();
-                        button3.GetComponent<Image>().color = Color.black;
+                        button3.GetComponent<Image>().sprite = redShine;
                         break;
                     case KeyCode.RightArrow:
                         currentKeyText.text = "R".ToString();
-                        button4.GetComponent<Image>().color = Color.black;
+                        button4.GetComponent<Image>().sprite = pinkShine;
                         break;
                 }
 
                 callFuncOnce = true;
             }
-
-            if (Input.GetKeyDown(currentKey) && canClick)
-            {
-                clicks++;
-
-                if (clicks >= clicksHigherThan)
-                {
-                    StartCoroutine(FinalizeDestructionOfBond());
-                }
-            }
         }
     }
 
-    IEnumerator FinalizeDestructionOfBond()
+    public void FinalizeDestructionOfBond()
     {
-        StartCoroutine(Animation());
-        yield return new WaitForSeconds(0);
+        animator.Play("expl");
+        StartCoroutine(WaitForSec());
 
-        FindObjectOfType<BondManager>().SendBondToLeft(currentBond);
+        StartCoroutine(FindObjectOfType<BondManager>().SendBondToLeft(currentBond));
 
         time = 0;
         time_ForStun = 0;
@@ -177,11 +181,47 @@ public class Player : MonoBehaviour
         }
     }
 
-    IEnumerator Animation()
+    IEnumerator SwitchBackToPng(GameObject g)
     {
-        animator.SetBool("bond", true);
-        yield return new WaitForSeconds(0.8f);
-        animator.SetBool("bond", false);
+        yield return new WaitForSeconds(0.1f);
+
+        var button = g.GetComponent<Button>().GetComponent<Image>().sprite.name;
+
+        switch(button)
+        {
+            case "Button_Controller_BlueLysosomePressed":
+                g.GetComponent<Button>().GetComponent<Image>().sprite = blueUnPressed;
+                break;
+            case "Button_Controller_GreenLysosomePressed":
+                g.GetComponent<Button>().GetComponent<Image>().sprite = greenUnPressed;
+                break;
+            case "Button_Controller_RedLysosomePressed":
+                g.GetComponent<Button>().GetComponent<Image>().sprite = redUnPressed;
+                break;
+            case "Button_Controller_PinkLysosomePressed":
+                g.GetComponent<Button>().GetComponent<Image>().sprite = pinkUnPressed;
+                break;
+
+        }
+    }
+
+    //IEnumerator SwitchBackToWhite(GameObject b)
+    //{
+    //    yield return new WaitForSeconds(0.1f);
+    //    b.GetComponent<Button>().GetComponent<Image>().color = Color.white;
+
+    //    yield return new WaitForSeconds(0.1f);
+    //    b.GetComponent<Button>().GetComponent<Image>().color = Color.black;
+
+    //    yield return new WaitForSeconds(0.1f);
+    //    b.GetComponent<Button>().GetComponent<Image>().color = Color.white;
+    //}
+
+    IEnumerator WaitForSec()
+    {
+        yield return new WaitForSeconds(0.2f);
+
+        animator.Play("idle");
     }
 
     IEnumerator CanClickFalse()
@@ -254,49 +294,196 @@ public class Player : MonoBehaviour
 
     public void Button1Clicked()
     {
-        if (isAtPressStation && button1.GetComponent<Image>().color == Color.black && canClick)
+        if (isAtPressStation && canClick)
         {
             clicks++;
+            button1.GetComponent<Image>().sprite = bluePressed;
+
+            switch (clicks)
+            {
+                case 1:
+                    animator.Play("click1");
+                    break;
+                case 2:
+                    animator.Play("click2");
+                    break;
+                case 3:
+                    animator.Play("click3");
+                    break;
+                case 4:
+                    animator.Play("click4");
+                    break;
+                case 5:
+                    animator.Play("click5");
+                    break;
+                case 6:
+                    animator.Play("click6");
+                    break;
+                case 7:
+                    animator.Play("click7");
+                    break;
+                case 8:
+                    animator.Play("click8");
+                    break;
+                case 9:
+                    animator.Play("click9");
+                    break;
+                case 10:
+                    animator.Play("click10");
+                    break;
+                default: 
+                    
+                    break;
+            }
+            StartCoroutine(SwitchBackToPng(button1));
 
             if (clicks >= clicksHigherThan)
             {
-                StartCoroutine(FinalizeDestructionOfBond());
+                FinalizeDestructionOfBond();
             }
         }
     }
     public void Button2Clicked()
     {
-        if (isAtPressStation && button2.GetComponent<Image>().color == Color.black && canClick)
+        if (isAtPressStation && canClick)
         {
             clicks++;
+            button2.GetComponent<Image>().sprite = greenPressed;
+
+            switch (clicks)
+            {
+                case 1:
+                    animator.Play("click1");
+                    break;
+                case 2:
+                    animator.Play("click2");
+                    break;
+                case 3:
+                    animator.Play("click3");
+                    break;
+                case 4:
+                    animator.Play("click4");
+                    break;
+                case 5:
+                    animator.Play("click5");
+                    break;
+                case 6:
+                    animator.Play("click6");
+                    break;
+                case 7:
+                    animator.Play("click7");
+                    break;
+                case 8:
+                    animator.Play("click8");
+                    break;
+                case 9:
+                    animator.Play("click9");
+                    break;
+                case 10:
+                    animator.Play("click10");
+                    break;
+            }
+            StartCoroutine(SwitchBackToPng(button2));
 
             if (clicks >= clicksHigherThan)
             {
-                StartCoroutine(FinalizeDestructionOfBond());
+                FinalizeDestructionOfBond();
             }
         }
     }
     public void Button3Clicked()
     {
-        if (isAtPressStation && button3.GetComponent<Image>().color == Color.black && canClick)
+        if (isAtPressStation && canClick)
         {
             clicks++;
+            button3.GetComponent<Image>().sprite = redPressed;
+
+            switch (clicks)
+            {
+                case 1:
+                    animator.Play("click1");
+                    break;
+                case 2:
+                    animator.Play("click2");
+                    break;
+                case 3:
+                    animator.Play("click3");
+                    break;
+                case 4:
+                    animator.Play("click4");
+                    break;
+                case 5:
+                    animator.Play("click5");
+                    break;
+                case 6:
+                    animator.Play("click6");
+                    break;
+                case 7:
+                    animator.Play("click7");
+                    break;
+                case 8:
+                    animator.Play("click8");
+                    break;
+                case 9:
+                    animator.Play("click9");
+                    break;
+                case 10:
+                    animator.Play("click10");
+                    break;
+            }
+            StartCoroutine(SwitchBackToPng(button3));
 
             if (clicks >= clicksHigherThan)
             {
-                StartCoroutine(FinalizeDestructionOfBond());
+                FinalizeDestructionOfBond();
             }
         }
     }
     public void Button4Clicked()
     {
-        if (isAtPressStation && button4.GetComponent<Image>().color == Color.black && canClick)
+        if (isAtPressStation && canClick)
         {
             clicks++;
+            button4.GetComponent<Image>().sprite = pinkPressed;
+
+            switch (clicks)
+            {
+                case 1:
+                    animator.Play("click1");
+                    break;
+                case 2:
+                    animator.Play("click2");
+                    break;
+                case 3:
+                    animator.Play("click3");
+                    break;
+                case 4:
+                    animator.Play("click4");
+                    break;
+                case 5:
+                    animator.Play("click5");
+                    break;
+                case 6:
+                    animator.Play("click6");
+                    break;
+                case 7:
+                    animator.Play("click7");
+                    break;
+                case 8:
+                    animator.Play("click8");
+                    break;
+                case 9:
+                    animator.Play("click9");
+                    break;
+                case 10:
+                    animator.Play("click10");
+                    break;
+            }
+            StartCoroutine(SwitchBackToPng(button4));
 
             if (clicks >= clicksHigherThan)
             {
-                StartCoroutine(FinalizeDestructionOfBond());
+                FinalizeDestructionOfBond();
             }
         }
     }
