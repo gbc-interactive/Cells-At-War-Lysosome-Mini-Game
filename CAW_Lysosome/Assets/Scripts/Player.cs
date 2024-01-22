@@ -67,6 +67,7 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+    
         animator = GetComponent<Animator>();
         animator.Play("idle");
 
@@ -106,6 +107,11 @@ public class Player : MonoBehaviour
             button2.GetComponent<Image>().color = Color.white;
             button3.GetComponent<Image>().color = Color.white;
             button4.GetComponent<Image>().color = Color.white;
+
+            button1.transform.localScale= Vector3.one;
+            button2.transform.localScale= Vector3.one;
+            button3.transform.localScale= Vector3.one;
+            button4.transform.localScale= Vector3.one;
         }
         else if (isAtPressStation)
         {
@@ -137,18 +143,25 @@ public class Player : MonoBehaviour
                     case KeyCode.UpArrow:
                         currentKeyText.text = "U".ToString();
                         button1.GetComponent<Image>().sprite = blueShine;
+                        button1.transform.localScale = new Vector2(0.6f, 0.6f);
                         break; 
                     case KeyCode.DownArrow:
                         currentKeyText.text = "D".ToString();
                         button2.GetComponent<Image>().sprite= greenShine;
+                        button2.transform.localScale = new Vector2(0.6f, 0.6f);
+
                         break;
                     case KeyCode.LeftArrow:
                         currentKeyText.text = "L".ToString();
                         button3.GetComponent<Image>().sprite = redShine;
+                        button3.transform.localScale = new Vector2(0.6f, 0.6f);
+
                         break;
                     case KeyCode.RightArrow:
                         currentKeyText.text = "R".ToString();
                         button4.GetComponent<Image>().sprite = pinkShine;
+                        button4.transform.localScale = new Vector2(0.6f, 0.6f);
+
                         break;
                 }
 
@@ -298,6 +311,7 @@ public class Player : MonoBehaviour
         {
             clicks++;
             button1.GetComponent<Image>().sprite = bluePressed;
+            button1.transform.localScale = Vector3.one;
 
             switch (clicks)
             {
@@ -349,6 +363,7 @@ public class Player : MonoBehaviour
         {
             clicks++;
             button2.GetComponent<Image>().sprite = greenPressed;
+            button2.transform.localScale = Vector3.one;
 
             switch (clicks)
             {
@@ -397,6 +412,7 @@ public class Player : MonoBehaviour
         {
             clicks++;
             button3.GetComponent<Image>().sprite = redPressed;
+            button3.transform.localScale = Vector3.one;
 
             switch (clicks)
             {
@@ -445,6 +461,7 @@ public class Player : MonoBehaviour
         {
             clicks++;
             button4.GetComponent<Image>().sprite = pinkPressed;
+            button4.transform.localScale = Vector3.one;
 
             switch (clicks)
             {
