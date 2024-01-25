@@ -17,15 +17,17 @@ public class TimerScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+    
+    }
+
+    public void SetGameStart(bool b)
+    {
+        gameStart = b;
+
         if (gameStart)
         {
             TimerOn = true;
         }
-    }
-
-    static public void SetGameStart(bool b)
-    {
-        gameStart = b;
     }
 
     public void IncreaseTimer(float addedTime)
@@ -36,7 +38,12 @@ public class TimerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Timer();
+        if (gameStart)
+        {
+            Timer();
+        }
+        else
+            return;
     }
 
     private void Timer()

@@ -25,6 +25,28 @@ public class BondManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        
+    }
+
+    void Update()
+    {
+        if (gameStart)
+        {
+            playerPos = FindAnyObjectByType<Player>().transform.position;
+
+            if (allBondsCompleted == true)
+            {
+                SetupStream();
+            }
+        }
+        else
+            return;
+    }
+
+    public void SetGameStart(bool b)
+    {
+        gameStart = b;
+
         Physics2D.gravity = new Vector2(-9.81f, 0);
 
         if (gameStart)
@@ -34,21 +56,6 @@ public class BondManager : MonoBehaviour
 
             SetupStream();
         }
-    }
-
-    void Update()
-    {
-        playerPos = FindAnyObjectByType<Player>().transform.position;
-
-        if (allBondsCompleted == true)
-        {
-            SetupStream();
-        }
-    }
-
-    static public void SetGameStart(bool b)
-    {
-        gameStart = b;
     }
 
     static public float GetRandomY()
