@@ -13,16 +13,12 @@ public class Player : MonoBehaviour
 {
     [SerializeField] Sprite greenPressed;
     [SerializeField] Sprite greenUnPressed;
-    [SerializeField] Sprite greenShine;
     [SerializeField] Sprite redPressed;
     [SerializeField] Sprite redUnPressed;
-    [SerializeField] Sprite redShine;
     [SerializeField] Sprite bluePressed;
     [SerializeField] Sprite blueUnPressed;
-    [SerializeField] Sprite blueShine;
     [SerializeField] Sprite pinkPressed;
     [SerializeField] Sprite pinkUnPressed;
-    [SerializeField] Sprite pinkShine;
 
     Animator animator;
 
@@ -43,6 +39,11 @@ public class Player : MonoBehaviour
 
     KeyCode currentKey;
     bool callFuncOnce;
+
+    bool blueShineOn;
+    bool GreenShineOn;
+    bool RedShineOn;
+    bool PinkShineOn;
 
     float timeBeforeStun = 1500f;
     float stunTime = 2;
@@ -67,7 +68,9 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-    
+        blueShineOn = false; GreenShineOn = false;
+        RedShineOn = false; PinkShineOn = false;
+
         animator = GetComponent<Animator>();
         animator.Play("idle");
 
@@ -79,6 +82,50 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     public void Update()
     {
+        if (blueShineOn)
+        {
+            GameObject b = button1.gameObject.transform.GetChild(0).gameObject;
+            b.SetActive(true);
+        }
+        if (!blueShineOn)
+        {
+            GameObject b = button1.gameObject.transform.GetChild(0).gameObject;
+            b.SetActive(false);
+        }
+
+        if (GreenShineOn)
+        {
+            GameObject b = button2.gameObject.transform.GetChild(0).gameObject;
+            b.SetActive(true);
+        }
+        if (!GreenShineOn)
+        {
+            GameObject b = button2.gameObject.transform.GetChild(0).gameObject;
+            b.SetActive(false);
+        }
+
+        if (RedShineOn)
+        {
+            GameObject b = button3.gameObject.transform.GetChild(0).gameObject;
+            b.SetActive(true);
+        }
+        if (!RedShineOn)
+        {
+            GameObject b = button3.gameObject.transform.GetChild(0).gameObject;
+            b.SetActive(false);
+        }
+
+        if (PinkShineOn)
+        {
+            GameObject b = button4.gameObject.transform.GetChild(0).gameObject;
+            b.SetActive(true);
+        }
+        if (!PinkShineOn)
+        {
+            GameObject b = button4.gameObject.transform.GetChild(0).gameObject;
+            b.SetActive(false);
+        }
+
         BondStationCheck();
         transform.position = new Vector3(transform.position.x, BondManager.GetRandomY() - 1.5f, 0);
 
@@ -108,10 +155,10 @@ public class Player : MonoBehaviour
             button3.GetComponent<Image>().color = Color.white;
             button4.GetComponent<Image>().color = Color.white;
 
-            button1.transform.localScale= Vector3.one;
-            button2.transform.localScale= Vector3.one;
-            button3.transform.localScale= Vector3.one;
-            button4.transform.localScale= Vector3.one;
+            blueShineOn = false;
+            GreenShineOn = false;
+            RedShineOn = false;
+            PinkShineOn = false;
         }
         else if (isAtPressStation)
         {
@@ -142,25 +189,21 @@ public class Player : MonoBehaviour
                 {
                     case KeyCode.UpArrow:
                         currentKeyText.text = "U".ToString();
-                        button1.GetComponent<Image>().sprite = blueShine;
-                        button1.transform.localScale = new Vector2(0.6f, 0.6f);
+                        blueShineOn = true;
                         break; 
                     case KeyCode.DownArrow:
                         currentKeyText.text = "D".ToString();
-                        button2.GetComponent<Image>().sprite= greenShine;
-                        button2.transform.localScale = new Vector2(0.6f, 0.6f);
+                        GreenShineOn = true;
 
                         break;
                     case KeyCode.LeftArrow:
                         currentKeyText.text = "L".ToString();
-                        button3.GetComponent<Image>().sprite = redShine;
-                        button3.transform.localScale = new Vector2(0.6f, 0.6f);
+                        RedShineOn= true;
 
                         break;
                     case KeyCode.RightArrow:
                         currentKeyText.text = "R".ToString();
-                        button4.GetComponent<Image>().sprite = pinkShine;
-                        button4.transform.localScale = new Vector2(0.6f, 0.6f);
+                        PinkShineOn=true;
 
                         break;
                 }
@@ -311,7 +354,7 @@ public class Player : MonoBehaviour
         {
             clicks++;
             button1.GetComponent<Image>().sprite = bluePressed;
-            button1.transform.localScale = Vector3.one;
+            blueShineOn = false;
 
             switch (clicks)
             {
@@ -363,7 +406,7 @@ public class Player : MonoBehaviour
         {
             clicks++;
             button2.GetComponent<Image>().sprite = greenPressed;
-            button2.transform.localScale = Vector3.one;
+            GreenShineOn = false;
 
             switch (clicks)
             {
@@ -412,7 +455,7 @@ public class Player : MonoBehaviour
         {
             clicks++;
             button3.GetComponent<Image>().sprite = redPressed;
-            button3.transform.localScale = Vector3.one;
+            RedShineOn = false;
 
             switch (clicks)
             {
@@ -461,7 +504,7 @@ public class Player : MonoBehaviour
         {
             clicks++;
             button4.GetComponent<Image>().sprite = pinkPressed;
-            button4.transform.localScale = Vector3.one;
+            PinkShineOn = false;
 
             switch (clicks)
             {
