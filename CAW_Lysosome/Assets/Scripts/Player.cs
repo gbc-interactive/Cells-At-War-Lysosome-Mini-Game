@@ -65,6 +65,8 @@ public class Player : MonoBehaviour
 
     float timeIncrease;
 
+    private Vector3 mouseWorldPosition;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -77,6 +79,8 @@ public class Player : MonoBehaviour
         canClick = true;
         callFuncOnce = false;
         isAtPressStation= false;
+
+        mouseWorldPosition.z = 0.0f;
     }
 
     // Update is called once per frame
@@ -126,8 +130,12 @@ public class Player : MonoBehaviour
             b.SetActive(false);
         }
 
-        BondStationCheck();
-        transform.position = new Vector3(transform.position.x, BondManager.GetRandomY() - 1.5f, 0);
+        // player position set to the mouse position 
+        mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        transform.position = mouseWorldPosition;
+
+        //BondStationCheck();
+        //transform.position = new Vector3(transform.position.x, BondManager.GetRandomY() - 1.5f, 0);
 
         clicksBlock.fillAmount = clicks / 10f;
     }
