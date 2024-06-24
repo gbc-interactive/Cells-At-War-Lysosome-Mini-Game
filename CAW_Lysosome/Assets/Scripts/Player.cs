@@ -134,7 +134,7 @@ public class Player : MonoBehaviour
         mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         transform.position = mouseWorldPosition;
 
-        //BondStationCheck();
+        BondStationCheck();
         //transform.position = new Vector3(transform.position.x, BondManager.GetRandomY() - 1.5f, 0);
 
         clicksBlock.fillAmount = clicks / 10f;
@@ -151,7 +151,7 @@ public class Player : MonoBehaviour
         {
             currentKeyText.text = "";
             clicks = 0;
-            MoveRight(MoveSpeed);
+            //MoveRight(MoveSpeed);
 
             button1.GetComponent<Image>().sprite = blueUnPressed;
             button2.GetComponent<Image>().sprite = greenUnPressed;
@@ -173,7 +173,7 @@ public class Player : MonoBehaviour
             time++;
             time_ForStun++;
             
-            MoveRight(StuckSpeed);
+            //MoveRight(StuckSpeed);
             float test = timeForDecreasing / multiplierForTimeDecrease;
             
             timeLeftBlock.fillAmount = time / test;
