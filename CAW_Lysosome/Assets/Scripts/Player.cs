@@ -131,11 +131,11 @@ public class Player : MonoBehaviour
         }
 
         // player position set to the mouse position 
-        mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        transform.position = mouseWorldPosition;
+        //mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        //transform.position = mouseWorldPosition;
 
-        //BondStationCheck();
-        //transform.position = new Vector3(transform.position.x, BondManager.GetRandomY() - 1.5f, 0);
+        BondStationCheck();
+        transform.position = new Vector3(transform.position.x, BondManager.GetRandomY() - 1.5f, 0);
 
         clicksBlock.fillAmount = clicks / 10f;
     }
@@ -241,7 +241,7 @@ public class Player : MonoBehaviour
             StartCoroutine(FindObjectOfType<BondManager>().WaitForSecond(go));
 
             BondManager.SetBondsCompleted();
-            //FindObjectOfType<TimerScript>().IncreaseTimer(timeIncrease);
+            FindObjectOfType<TimerScript>().IncreaseTimer(timeIncrease);
         }
     }
 
@@ -269,17 +269,17 @@ public class Player : MonoBehaviour
         }
     }
 
-    //IEnumerator SwitchBackToWhite(GameObject b)
-    //{
-    //    yield return new WaitForSeconds(0.1f);
-    //    b.GetComponent<Button>().GetComponent<Image>().color = Color.white;
+    IEnumerator SwitchBackToWhite(GameObject b)
+    {
+        yield return new WaitForSeconds(0.1f);
+        b.GetComponent<Button>().GetComponent<Image>().color = Color.white;
 
-    //    yield return new WaitForSeconds(0.1f);
-    //    b.GetComponent<Button>().GetComponent<Image>().color = Color.black;
+        yield return new WaitForSeconds(0.1f);
+        b.GetComponent<Button>().GetComponent<Image>().color = Color.black;
 
-    //    yield return new WaitForSeconds(0.1f);
-    //    b.GetComponent<Button>().GetComponent<Image>().color = Color.white;
-    //}
+        yield return new WaitForSeconds(0.1f);
+        b.GetComponent<Button>().GetComponent<Image>().color = Color.white;
+    }
 
     IEnumerator WaitForSec()
     {
