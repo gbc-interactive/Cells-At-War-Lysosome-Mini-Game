@@ -2093,6 +2093,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3904196018551628295, guid: 892c5387baf6b1c4d9b8da9f925ae964, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6063969816193317017, guid: 892c5387baf6b1c4d9b8da9f925ae964, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -2141,6 +2145,10 @@ PrefabInstance:
       propertyPath: target
       value: 
       objectReference: {fileID: 188920981}
+    - target: {fileID: 7773954817322825780, guid: 892c5387baf6b1c4d9b8da9f925ae964, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9043577153452084509, guid: 892c5387baf6b1c4d9b8da9f925ae964, type: 3}
       propertyPath: m_LocalScale.x
       value: 2.2970674
@@ -2172,7 +2180,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2291870608334942294, guid: e4bea973af4c2624584d410667e52eef, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.79
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2291870608334942294, guid: e4bea973af4c2624584d410667e52eef, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2242,6 +2250,10 @@ PrefabInstance:
       propertyPath: TimeBeforeStunBlock
       value: 
       objectReference: {fileID: 1687322911}
+    - target: {fileID: 5598345557666888895, guid: e4bea973af4c2624584d410667e52eef, type: 3}
+      propertyPath: m_SortingOrder
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 7076388005818489581, guid: e4bea973af4c2624584d410667e52eef, type: 3}
       propertyPath: m_Name
       value: Player

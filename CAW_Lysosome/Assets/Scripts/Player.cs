@@ -130,6 +130,18 @@ public class Player : MonoBehaviour
             b.SetActive(false);
         }
 
+        // left click mouse to destroy bond
+        if (Input.GetMouseButtonDown(0) && isAtPressStation)
+        {
+            clicks++;
+            if (clicks >= clicksHigherThan)
+            {
+                FinalizeDestructionOfBond();
+            }
+        }
+
+
+
         // player position set to the mouse position 
         mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         transform.position = mouseWorldPosition;

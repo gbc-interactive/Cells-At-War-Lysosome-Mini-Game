@@ -10,6 +10,7 @@ public class SpawnAA : MonoBehaviour
     [SerializeField] GameObject Connector;
 
     public GameObject g;
+    private GameObject AminoAcid;
 
     // Start is called before the first frame update
     void Start()
@@ -17,7 +18,7 @@ public class SpawnAA : MonoBehaviour
         g = aa[GetRandAA()];
         //g = aa[15];
 
-        GameObject AminoAcid = Instantiate(g) as GameObject;
+        AminoAcid = Instantiate(g) as GameObject;
 
         AminoAcid.transform.SetParent(gameObject.transform, false);
         AminoAcid.transform.position = aaLocation.transform.position;
@@ -129,7 +130,8 @@ public class SpawnAA : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        // move each station in the chain 
+        transform.position += Vector3.left * 0.001f;
     }
 
     public int GetRandAA()

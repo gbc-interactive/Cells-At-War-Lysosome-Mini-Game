@@ -21,7 +21,9 @@ public class BondManager : MonoBehaviour
 
     [SerializeField] Vector3 playerPos;
     static bool gameStart;
- 
+
+    private GameObject bond;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -74,7 +76,7 @@ public class BondManager : MonoBehaviour
     {
         allBondsCompleted= false;
         
-        randomizedNewLocationY = UnityEngine.Random.Range(-6, 6);
+        randomizedNewLocationY = UnityEngine.Random.Range(-3, 3);
 
         currentStreamLength = GetRandomSpawnAmt();
         FindObjectOfType<Player>().SetCoroutineRuns(currentStreamLength-1, currentStreamLength-1);
@@ -89,7 +91,7 @@ public class BondManager : MonoBehaviour
 
         for (int i = 1; i < runs+1; i++)
         {
-            GameObject bond = Instantiate(bondPref) as GameObject;
+            bond = Instantiate(bondPref) as GameObject;
             bond.GetComponent<Rigidbody2D>().gravityScale = 0f;
             if (i == 1)
             {
