@@ -191,6 +191,8 @@ public class Player : MonoBehaviour
     {
         if (collision.gameObject.tag == "Station")
         {
+            // reset red bar to 0 if player stops colliding with that bond
+            time = 0f;
             isAtPressStation = false;
         }
     }

@@ -135,15 +135,15 @@ public class SpawnAA : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // move each station in the chain 
-        transform.position += Vector3.left * 0.0025f;
-
-        //StartCoroutine("LerpPosition");
+        
     }
 
     void FixedUpdate()
     {
-        
+        // move each station in the chain 
+        transform.position += Vector3.left * 0.05f;
+
+        //StartCoroutine("LerpPosition");
     }
 
     // move amino acids to random position 
