@@ -14,7 +14,7 @@ public class BondManager : MonoBehaviour
 
     float distanceBetweenBonds = 5.5f;
 
-    static public int currentStreamLength;
+    public static int currentStreamLength;
     static bool allBondsCompleted;   
 
     static float randomizedNewLocationY;
@@ -23,6 +23,7 @@ public class BondManager : MonoBehaviour
     static bool gameStart;
 
     private GameObject bond;
+
 
     // Start is called before the first frame update
     void Start()
@@ -49,7 +50,7 @@ public class BondManager : MonoBehaviour
     {
         gameStart = b;
 
-        Physics2D.gravity = new Vector2(-9.81f, 0);
+        Physics2D.gravity = new Vector2(0, 0);
 
         if (gameStart)
         {
@@ -60,23 +61,23 @@ public class BondManager : MonoBehaviour
         }
     }
 
-    static public float GetRandomY()
+    public static float GetRandomY()
     {
         return randomizedNewLocationY;
     }
 
     public int GetRandomSpawnAmt()
     {
-        int corountineRepeats = 
-            UnityEngine.Random.Range(minBondSpawnAmt, maxBondSpawnAmt);
+        int corountineRepeats = Random.Range(minBondSpawnAmt, maxBondSpawnAmt);
         return corountineRepeats;
     }
 
+    // currently spawns a chain on the right side of screen, randomized y value
     public void SetupStream()
     {
         allBondsCompleted= false;
         
-        randomizedNewLocationY = UnityEngine.Random.Range(-3, 3);
+        randomizedNewLocationY = Random.Range(-3, 3);
 
         currentStreamLength = GetRandomSpawnAmt();
         FindObjectOfType<Player>().SetCoroutineRuns(currentStreamLength-1, currentStreamLength-1);
@@ -103,31 +104,26 @@ public class BondManager : MonoBehaviour
 
                 if (i == runs)
                 {
+                    // for the last segment in the protein, remove the bond and disable the bond collider
                     bond.gameObject.tag = "last";
-
-                    for (int c = 0; c < bond.transform.childCount; c++) 
-                    {
-                        if (bond.transform.GetChild(c).gameObject.tag != "Connector")
-                        {
-                            Destroy(bond.transform.GetChild(c).gameObject); // For the final bond per stream
-                        }
-                        bond.GetComponent<BoxCollider2D>().enabled = false;
-                    }
+                    bond.GetComponent<BoxCollider2D>().enabled = false;
+                    Destroy(bond.transform.GetChild(0).gameObject);
                 }
             }
         }
     }
 
-    public IEnumerator WaitForSecond(GameObject Obj)
+    public IEnumerator WaitForSecond(GameObject obj)
     {
-        yield return new WaitForSeconds(1);
-        if (Obj != null)
+        if (obj != null)
         {
-            CreateExplosion(Obj);
+            CreateExplosion(obj);
+            yield return new WaitForSeconds(2.0f);
+            Destroy(obj);
         }
-        Obj.GetComponent<Rigidbody2D>().gravityScale = 1;
     }
 
+    // destroys bond and then destroys protein segment after 2 seconds of explosion time
     public IEnumerator SendBondToLeft(GameObject obj)
     {
         foreach (Transform child in obj.transform)
@@ -137,40 +133,39 @@ public class BondManager : MonoBehaviour
                 obj.GetComponent<BoxCollider2D>().enabled = false;
                 yield return new WaitForSeconds(0.1f);
                 Destroy(child.gameObject);
-                obj.GetComponent<Rigidbody2D>().gravityScale = 1;
                 CreateExplosion(obj);
+                yield return new WaitForSeconds(2.0f);
+                Destroy(obj);
             }
-        } 
+        }
     }
 
+    // adds random explosion force originating from players position to the destroyed segment
     public void CreateExplosion(GameObject obj)
     {
-        int randExplosion = UnityEngine.Random.Range(1, 4);
+        int randExplosion = Random.Range(1, 4);
 
         switch (randExplosion)
         {
             case 1:
-                obj.GetComponent<Rigidbody2D>().AddForceAtPosition(Vector2.down * UnityEngine.Random.Range(1, 10), Vector2.right);
+                obj.GetComponent<Rigidbody2D>().AddForceAtPosition(Vector2.down * UnityEngine.Random.Range(10, 100), playerPos);
                 break;
             case 2:
-                obj.GetComponent<Rigidbody2D>().AddForceAtPosition(Vector2.up * UnityEngine.Random.Range(1, 10), Vector2.right);
+                obj.GetComponent<Rigidbody2D>().AddForceAtPosition(Vector2.up * UnityEngine.Random.Range(10, 100), playerPos);
                 break;
             case 3:
-                obj.GetComponent<Rigidbody2D>().AddForceAtPosition(Vector2.left * UnityEngine.Random.Range(1, 10), Vector2.right);
+                obj.GetComponent<Rigidbody2D>().AddForceAtPosition(Vector2.left * UnityEngine.Random.Range(10, 100), playerPos);
                 break;
             case 4:
-                obj.GetComponent<Rigidbody2D>().AddForceAtPosition(Vector2.right * UnityEngine.Random.Range(1, 10), Vector2.right);
+                obj.GetComponent<Rigidbody2D>().AddForceAtPosition(Vector2.right * UnityEngine.Random.Range(10, 100), playerPos);
                 break;
             default:
                 break;
         }
     }
 
-    static public void SetBondsCompleted()
+    public static void SetBondsCompleted()
     {
         allBondsCompleted = true;
     }
-
-    // Update is called once per frame
-
 }

@@ -416,7 +416,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f706443af3f1734e8a4af1008c71a8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TimeLeft: 30
+  TimeLeft: 120
   TimerOn: 0
   timerText: {fileID: 337441171}
 --- !u!4 &283951182
@@ -822,7 +822,7 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 0
-  m_FillAmount: 1
+  m_FillAmount: 0
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
@@ -1387,7 +1387,7 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 0
-  m_FillAmount: 1
+  m_FillAmount: 0
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
@@ -2250,6 +2250,10 @@ PrefabInstance:
       propertyPath: TimeBeforeStunBlock
       value: 
       objectReference: {fileID: 1687322911}
+    - target: {fileID: 2992645799083726481, guid: e4bea973af4c2624584d410667e52eef, type: 3}
+      propertyPath: addedToMultiplierTimeDecrease
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 5598345557666888895, guid: e4bea973af4c2624584d410667e52eef, type: 3}
       propertyPath: m_SortingOrder
       value: 7

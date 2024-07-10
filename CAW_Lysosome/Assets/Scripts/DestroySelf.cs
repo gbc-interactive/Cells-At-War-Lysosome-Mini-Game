@@ -13,7 +13,7 @@ public class DestroySelf : MonoBehaviour
 
     IEnumerator EndSelf()
     {
-        yield return new WaitForSeconds(20);
+        yield return new WaitForSeconds(120);
         Destroy(this.gameObject);
     }
 }

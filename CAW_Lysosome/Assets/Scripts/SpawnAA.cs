@@ -1,7 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Numerics;
 using System.Reflection;
 using UnityEngine;
+using Vector2 = UnityEngine.Vector2;
+using Vector3 = UnityEngine.Vector3;
 
 public class SpawnAA : MonoBehaviour
 {
@@ -11,6 +14,8 @@ public class SpawnAA : MonoBehaviour
 
     public GameObject g;
     private GameObject AminoAcid;
+
+    private float moveSpeed = 0.01f;
 
     // Start is called before the first frame update
     void Start()
@@ -131,7 +136,30 @@ public class SpawnAA : MonoBehaviour
     void Update()
     {
         // move each station in the chain 
-        transform.position += Vector3.left * 0.001f;
+        transform.position += Vector3.left * 0.0025f;
+
+        //StartCoroutine("LerpPosition");
+    }
+
+    void FixedUpdate()
+    {
+        
+    }
+
+    // move amino acids to random position 
+    private IEnumerator LerpPosition()
+    {
+        Camera mainCamera = Camera.main;
+        Vector3 randomScreenPosition = new Vector3(Random.Range(0f, mainCamera.pixelWidth), Random.Range(0f, mainCamera.pixelHeight), 0.0f);
+        Vector3 randomWorldPosition = mainCamera.ScreenToWorldPoint(randomScreenPosition);
+
+        Vector3 movementDirection = (randomWorldPosition - transform.position).normalized;
+
+        while (Vector2.Distance(transform.position, randomWorldPosition) > 0.5f)
+        {
+            transform.position += movementDirection * moveSpeed * Time.deltaTime;
+            yield return new WaitForFixedUpdate();
+        }
     }
 
     public int GetRandAA()
