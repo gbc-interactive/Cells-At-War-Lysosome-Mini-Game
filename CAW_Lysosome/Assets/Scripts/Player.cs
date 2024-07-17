@@ -84,6 +84,8 @@ public class Player : MonoBehaviour
         }
         else if (isAtPressStation)
         {
+            // TODO: timer/stun bar removed currently 
+
             time++;
             time_ForStun++;
 
@@ -101,12 +103,13 @@ public class Player : MonoBehaviour
             {
                 StartCoroutine(CanClickFalse());
             }
-
+            
             if (callFuncOnce == false)
             {
                 currentKey = GetRandKey();
                 callFuncOnce = true;
             }
+            
         }
     }
 

@@ -77,7 +77,7 @@ public class BondManager : MonoBehaviour
     {
         allBondsCompleted= false;
         
-        randomizedNewLocationY = Random.Range(-3, 3);
+        randomizedNewLocationY = Random.Range(-2, 3);
 
         currentStreamLength = GetRandomSpawnAmt();
         FindObjectOfType<Player>().SetCoroutineRuns(currentStreamLength-1, currentStreamLength-1);
