@@ -40,9 +40,13 @@ public class Player : MonoBehaviour
 
     private Vector3 mouseWorldPosition;
 
+    private Material playerMaterial;
+
     // Start is called before the first frame update
     void Start()
     {
+        playerMaterial = gameObject.GetComponent<SpriteRenderer>().material;
+
         animator = GetComponent<Animator>();
         animator.Play("idle");
 
@@ -73,6 +77,8 @@ public class Player : MonoBehaviour
         BondStationCheck();
 
         clicksBlock.fillAmount = clicks / 10f;
+
+        StartCoroutine(FadePlayer());
     }
 
     private void BondStationCheck()
@@ -195,8 +201,26 @@ public class Player : MonoBehaviour
         if (collision.gameObject.tag == "Station")
         {
             // reset red bar to 0 if player stops colliding with that bond
-            time = 0f;
+            time = 0.0f;
             isAtPressStation = false;
+        }
+    }
+
+    // fades player opacity from 1.0 to 0.0 over 2mins(total game time)
+    IEnumerator FadePlayer()
+    {
+        float fadeRatePerSecond = 0.000012f;
+        Color playerColour = playerMaterial.color;
+        playerColour.a -= fadeRatePerSecond; 
+        playerMaterial.color = playerColour;
+        yield return new WaitForSeconds(1.0f);
+
+        Debug.Log(playerMaterial.color.a);
+
+        // if players opacity is less or equal to 0.05 aka 5% (adjust accordingly) then lose game
+        if (playerColour.a <= 0.05f)
+        {
+            SceneManager.LoadScene("LoseScene");
         }
     }
 }

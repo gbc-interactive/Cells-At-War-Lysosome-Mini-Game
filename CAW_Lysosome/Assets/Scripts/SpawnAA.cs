@@ -18,7 +18,7 @@ public class SpawnAA : MonoBehaviour
 
     private float moveSpeed = 0.01f;
 
-    [SerializeField] private Material stationMaterial;
+    private Material stationMaterial;
 
     // Start is called before the first frame update
     void Start()
@@ -140,7 +140,7 @@ public class SpawnAA : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        FadeAminoAcid();
+        
     }
 
     void FixedUpdate()
@@ -172,32 +172,34 @@ public class SpawnAA : MonoBehaviour
         return Random.Range(1, aa.Length);
     }
 
-    private void FadeAminoAcid()
-    {
-        // station alpha channel
-        Color stationColour = stationMaterial.color;
-        stationColour.a -= 0.01f * Time.fixedDeltaTime;
-        stationMaterial.color = stationColour;
 
-        // fade all child component alpha channels if they have a sprite renderer 
-        foreach (Transform child in gameObject.transform)
-        {
-            if (child.GetComponent<SpriteRenderer>() != null)
-            {
-                Material childMaterial = child.GetComponent<SpriteRenderer>().material;
-                Color childColour = childMaterial.color;
-                childColour.a -= 0.01f * Time.fixedDeltaTime;
-                childMaterial.color = childColour;
-            }
-        }
-
-        // destroy entire chain if player fails to complete it before it fades away
-        if (stationMaterial.color.a <= 0.0f)
-        {
-            Destroy(gameObject);
-
-            // TODO: spawn a new chain
-            
-        }
-    }
+    // TODO: fade the player opacity over time instead of the chain 
+    //private void FadeAminoAcid()
+    //{
+    //    // station alpha channel
+    //    Color stationColour = stationMaterial.color;
+    //    stationColour.a -= 0.01f * Time.fixedDeltaTime;
+    //    stationMaterial.color = stationColour;
+    //
+    //    // fade all child component alpha channels if they have a sprite renderer 
+    //    foreach (Transform child in gameObject.transform)
+    //    {
+    //        if (child.GetComponent<SpriteRenderer>() != null)
+    //        {
+    //            Material childMaterial = child.GetComponent<SpriteRenderer>().material;
+    //            Color childColour = childMaterial.color;
+    //            childColour.a -= 0.01f * Time.fixedDeltaTime;
+    //            childMaterial.color = childColour;
+    //        }
+    //    }
+    //
+    //    // destroy entire chain if player fails to complete it before it fades away
+    //    if (stationMaterial.color.a <= 0.0f)
+    //    {
+    //        Destroy(gameObject);
+    //
+    //        // TODO: spawn a new chain
+    //        
+    //    }
+    //}
 }
