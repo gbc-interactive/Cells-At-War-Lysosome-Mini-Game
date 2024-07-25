@@ -23,13 +23,13 @@ public class Player : MonoBehaviour
     [SerializeField] int timeForDecreasing = 2000;
     [SerializeField] private float addedToMultiplierTimeDecrease = 0.1f;
 
+    [SerializeField] GameObject currentBond;
+
     bool isAtPressStation;
-    GameObject currentBond;
     KeyCode currentKey;
     bool callFuncOnce;
     float timeBeforeStun = 1500f;
     float stunTime = 2;
-    bool canClick;
     int clicks;
     public int coroutineRuns;
 
@@ -50,7 +50,6 @@ public class Player : MonoBehaviour
         animator = GetComponent<Animator>();
         animator.Play("idle");
 
-        canClick = true;
         callFuncOnce = false;
         isAtPressStation = false;
 
@@ -132,14 +131,16 @@ public class Player : MonoBehaviour
         coroutineRuns--;
         callFuncOnce = false;
 
-        if (coroutineRuns < 1)
+        // if there is only the last connection in a chain left when player destroys the bond, destroy the last object as well
+        AAChain aaChainTemp = FindObjectOfType<AAChain>();
+        if (aaChainTemp.stationQueue.Count == 1)
         {
             GameObject go = GameObject.FindGameObjectWithTag("last");
-
             StartCoroutine(FindObjectOfType<BondManager>().WaitForSecond(go));
-
             BondManager.SetBondsCompleted();
-            //FindObjectOfType<TimerScript>().IncreaseTimer(timeIncrease);
+            aaChainTemp.stationQueue.Clear();
+            aaChainTemp.aminoAcidQueue.Clear();
+            aaChainTemp.SpawnChain();
         }
     }
 
@@ -151,10 +152,8 @@ public class Player : MonoBehaviour
 
     IEnumerator CanClickFalse()
     {
-        canClick = false;
         FindObjectOfType<FollowPlayer>().start = true;
         yield return new WaitForSeconds(stunTime);
-        canClick = true;
         time_ForStun = 0;
     }
 
@@ -190,8 +189,16 @@ public class Player : MonoBehaviour
     {
         if (collision.gameObject.tag == "Station")
         {
-            isAtPressStation = true;
+            AAChain tempAaChain = FindObjectOfType<AAChain>();
             currentBond = collision.gameObject;
+            if (currentBond == tempAaChain.stationQueue.Peek())
+            {
+                isAtPressStation = true;
+            }
+            else
+            {
+                isAtPressStation = false;
+            }
             multiplierForTimeDecrease += addedToMultiplierTimeDecrease;
         }
     }

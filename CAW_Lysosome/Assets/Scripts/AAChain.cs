@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.XR;
 using Random = UnityEngine.Random;
 
 
@@ -14,11 +15,14 @@ public class AAChain : MonoBehaviour
     [SerializeField] private GameObject stationPrefab;
     [SerializeField] private GameObject aminoAcidPrefab;
     [SerializeField] private GameObject[] aminoAcidPrefabList;
-    [SerializeField] private Queue<GameObject> stationQueue;
-    [SerializeField] private Queue<GameObject> aminoAcidQueue;
+    [SerializeField] public Queue<GameObject> stationQueue;
+    [SerializeField] public Queue<GameObject> aminoAcidQueue;
 
-    [SerializeField] private GameObject stationTail;
-    [SerializeField] private GameObject aminoAcidTail;
+    // track head and tail of the chain
+    [SerializeField] public GameObject stationHead;
+    [SerializeField] public GameObject stationTail;
+    [SerializeField] public GameObject aminoAcidHead;
+    [SerializeField] public GameObject aminoAcidTail;
 
     // Start is called before the first frame update
     void Start()
@@ -31,34 +35,64 @@ public class AAChain : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        stationTail = stationQueue.Last();
-        aminoAcidTail = aminoAcidQueue.Last();
+        UpdateQueue();
+        MoveChain();
     }
 
-    private void RandomAminoAcid()
+    private GameObject RandomAminoAcid()
     {
-        aminoAcidPrefab = aminoAcidPrefabList[Random.Range(0, aminoAcidPrefabList.Length)];
+        return aminoAcidPrefabList[Random.Range(0, aminoAcidPrefabList.Length)];
     }
 
-    private void SpawnChain()
+    public void SpawnChain()
     {
         int chainSize = Random.Range(minChainSize, maxChainSize);
+        int segmentSpacing = 3;
 
         for (int i = 0; i < chainSize; i++)
         {
             GameObject tempStation = Instantiate(stationPrefab);
-            tempStation.transform.localScale *= 0.2f;
-            tempStation.transform.position = new Vector3(tempStation.transform.position.x + i, 1.0f);
+            tempStation.transform.localScale *= 0.5f;
+            tempStation.transform.position = new Vector3(tempStation.transform.position.x + segmentSpacing, 1.0f);
             Vector2 aaLocation = tempStation.transform.GetChild(1).gameObject.transform.position;
-            aaLocation.y -= 0.25f;
 
-            RandomAminoAcid();
-            GameObject tempAminoAcid = Instantiate(aminoAcidPrefab);
-            tempAminoAcid.transform.localScale *= 0.1f;
+            // for the last segment in the protein, remove the bond and disable the bond collider
+            if (i == chainSize - 1)
+            {
+                tempStation.GetComponent<BoxCollider2D>().enabled = false;
+                Destroy(tempStation.transform.GetChild(0).gameObject);
+                tempStation.tag = "last";
+            }
+
+            GameObject tempAminoAcid = Instantiate(RandomAminoAcid());
+            tempAminoAcid.transform.SetParent(tempStation.transform);
+            tempAminoAcid.transform.localScale *= 0.25f;
+            // set the location of each amino acid by using the difference between the location of the station's connector and the amino acid's offset point
             tempAminoAcid.transform.position = aaLocation;
+            Vector2 aaOffset = tempStation.transform.GetChild(1).gameObject.transform.position - 
+                                tempAminoAcid.transform.GetChild(1).gameObject.transform.position;
+            tempAminoAcid.transform.position = aaLocation + aaOffset;
 
             stationQueue.Enqueue(tempStation);
             aminoAcidQueue.Enqueue(tempAminoAcid);
+            segmentSpacing += 3;
         }
+    }
+
+    private void MoveChain()
+    {
+        foreach (var obj in stationQueue)
+        {
+            obj.transform.position -= new Vector3(1.0f, 0.0f, 0.0f) * Time.deltaTime;
+        }
+    }
+
+    private void UpdateQueue()
+    {
+        // keep track of the first and last segment in the chain
+        stationTail = stationQueue.Last();
+        aminoAcidTail = aminoAcidQueue.Last();
+        stationHead = stationQueue.Peek();
+        aminoAcidHead = aminoAcidQueue.Peek();
     }
 }

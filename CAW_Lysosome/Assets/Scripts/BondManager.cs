@@ -7,6 +7,7 @@ using UnityEngine.UIElements;
 
 public class BondManager : MonoBehaviour
 {
+    [SerializeField] private AAChain AAChain;
     [SerializeField] GameObject bondPref;
     [SerializeField] GameObject endStream;
     int minBondSpawnAmt;
@@ -28,7 +29,7 @@ public class BondManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        AAChain = FindFirstObjectByType<AAChain>();
     }
 
     void Update()
@@ -83,7 +84,7 @@ public class BondManager : MonoBehaviour
         FindObjectOfType<Player>().SetCoroutineRuns(currentStreamLength-1, currentStreamLength-1);
 
         float x = playerPos.x;
-        CreateStream(currentStreamLength);
+        //CreateStream(currentStreamLength);
     }
 
     public void CreateStream(int runs)
@@ -130,6 +131,10 @@ public class BondManager : MonoBehaviour
         {
             if (child.tag == "Bond")
             {
+                // remove destroyed objects from queue and set new heads
+                AAChain.stationQueue.Dequeue();
+                AAChain.aminoAcidQueue.Dequeue();
+
                 obj.GetComponent<BoxCollider2D>().enabled = false;
                 yield return new WaitForSeconds(0.1f);
                 Destroy(child.gameObject);
