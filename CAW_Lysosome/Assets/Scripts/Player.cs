@@ -99,10 +99,10 @@ public class Player : MonoBehaviour
             timeLeftBlock.fillAmount = time / test;
             TimeBeforeStunBlock.fillAmount = time / timeBeforeStun;
 
-            if (time > test)
-            {
-                SceneManager.LoadScene("LoseScene");
-            }
+            //if (time > test)
+            //{
+            //    SceneManager.LoadScene("LoseScene");
+            //}
 
             if (time_ForStun > timeBeforeStun)
             {
