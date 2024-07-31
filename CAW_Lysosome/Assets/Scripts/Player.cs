@@ -63,11 +63,13 @@ public class Player : MonoBehaviour
         if (Input.GetMouseButtonDown(0) && isAtPressStation)
         {
             clicks++;
+            ChompAnimation();
             if (clicks >= clicksHigherThan)
             {
                 FinalizeDestructionOfBond();
             }
         }
+        
 
         // player position set to the mouse position 
         mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -228,6 +230,43 @@ public class Player : MonoBehaviour
         if (playerColour.a <= 0.05f)
         {
             SceneManager.LoadScene("LoseScene");
+        }
+    }
+
+    private void ChompAnimation()
+    {
+        switch (clicks)
+        {
+            case 1:
+                animator.Play("click1");
+                break;
+            case 2:
+                animator.Play("click2");
+                break;
+            case 3:
+                animator.Play("click3");
+                break;
+            case 4:
+                animator.Play("click4");
+                break;
+            case 5:
+                animator.Play("click5");
+                break;
+            case 6:
+                animator.Play("click6");
+                break;
+            case 7:
+                animator.Play("click7");
+                break;
+            case 8:
+                animator.Play("click8");
+                break;
+            case 9:
+                animator.Play("click9");
+                break;
+            case 10:
+                animator.Play("click10");
+                break;
         }
     }
 }
