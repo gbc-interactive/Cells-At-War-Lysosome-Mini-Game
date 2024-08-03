@@ -15,8 +15,8 @@ public class AAChain : MonoBehaviour
     [SerializeField] private GameObject stationPrefab;
     [SerializeField] private GameObject aminoAcidPrefab;
     [SerializeField] private GameObject[] aminoAcidPrefabList;
-    [SerializeField] public Queue<GameObject> stationQueue;
-    [SerializeField] public Queue<GameObject> aminoAcidQueue;
+    [SerializeField] public List<GameObject> stationQueue;
+    [SerializeField] public List<GameObject> aminoAcidQueue;
 
     // track head and tail of the chain
     [SerializeField] public GameObject stationHead;
@@ -27,8 +27,8 @@ public class AAChain : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        stationQueue = new Queue<GameObject>();
-        aminoAcidQueue = new Queue<GameObject>();
+        stationQueue = new List<GameObject>();
+        aminoAcidQueue = new List<GameObject>();
         SpawnChain();
     }
 
@@ -73,8 +73,8 @@ public class AAChain : MonoBehaviour
                                 tempAminoAcid.transform.GetChild(1).gameObject.transform.position;
             tempAminoAcid.transform.position = aaLocation + aaOffset;
 
-            stationQueue.Enqueue(tempStation);
-            aminoAcidQueue.Enqueue(tempAminoAcid);
+            stationQueue.Add(tempStation);
+            aminoAcidQueue.Add(tempAminoAcid);
             segmentSpacing += 3;
         }
     }
@@ -92,7 +92,7 @@ public class AAChain : MonoBehaviour
         // keep track of the first and last segment in the chain
         stationTail = stationQueue.Last();
         aminoAcidTail = aminoAcidQueue.Last();
-        stationHead = stationQueue.Peek();
-        aminoAcidHead = aminoAcidQueue.Peek();
+        stationHead = stationQueue[0];
+        aminoAcidHead = aminoAcidQueue[0];
     }
 }

@@ -191,16 +191,9 @@ public class Player : MonoBehaviour
     {
         if (collision.gameObject.tag == "Station")
         {
-            AAChain tempAaChain = FindObjectOfType<AAChain>();
             currentBond = collision.gameObject;
-            if (currentBond == tempAaChain.stationQueue.Peek())
-            {
-                isAtPressStation = true;
-            }
-            else
-            {
-                isAtPressStation = false;
-            }
+            isAtPressStation = true;
+           
             multiplierForTimeDecrease += addedToMultiplierTimeDecrease;
         }
     }
