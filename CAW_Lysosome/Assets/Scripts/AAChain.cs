@@ -47,12 +47,12 @@ public class AAChain : MonoBehaviour
     public void SpawnChain()
     {
         int chainSize = Random.Range(minChainSize, maxChainSize);
-        int segmentSpacing = 3;
+        float segmentSpacing = 4.8f;
 
         for (int i = 0; i < chainSize; i++)
         {
             GameObject tempStation = Instantiate(stationPrefab);
-            tempStation.transform.localScale *= 0.5f;
+            tempStation.transform.localScale *= 0.80f;
             tempStation.transform.position = new Vector3(tempStation.transform.position.x + segmentSpacing, 1.0f);
             Vector2 aaLocation = tempStation.transform.GetChild(1).gameObject.transform.position;
 
@@ -66,7 +66,7 @@ public class AAChain : MonoBehaviour
 
             GameObject tempAminoAcid = Instantiate(RandomAminoAcid());
             tempAminoAcid.transform.SetParent(tempStation.transform);
-            tempAminoAcid.transform.localScale *= 0.25f;
+            tempAminoAcid.transform.localScale *= 0.55f;
             // set the location of each amino acid by using the difference between the location of the station's connector and the amino acid's offset point
             tempAminoAcid.transform.position = aaLocation;
             Vector2 aaOffset = tempStation.transform.GetChild(1).gameObject.transform.position - 
@@ -75,7 +75,7 @@ public class AAChain : MonoBehaviour
 
             stationQueue.Add(tempStation);
             aminoAcidQueue.Add(tempAminoAcid);
-            segmentSpacing += 3;
+            segmentSpacing += 4.8f;
         }
     }
 
