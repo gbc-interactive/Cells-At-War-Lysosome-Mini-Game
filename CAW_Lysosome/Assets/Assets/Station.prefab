@@ -380,6 +380,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MoleculeBonds
       objectReference: {fileID: 0}
+    - target: {fileID: 3243048624383702485, guid: 3587d1a69dc6e404a8ca886e23d398fb, type: 3}
+      propertyPath: m_SortingOrder
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 7651906171891203561, guid: 3587d1a69dc6e404a8ca886e23d398fb, type: 3}
       propertyPath: m_LocalPosition.x
       value: 5.64

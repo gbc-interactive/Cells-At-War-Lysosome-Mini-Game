@@ -66,7 +66,7 @@ public class AAChain : MonoBehaviour
 
             GameObject tempAminoAcid = Instantiate(RandomAminoAcid());
             tempAminoAcid.transform.SetParent(tempStation.transform);
-            tempAminoAcid.transform.localScale *= 0.55f;
+            tempAminoAcid.transform.localScale *= 0.37f;
             // set the location of each amino acid by using the difference between the location of the station's connector and the amino acid's offset point
             tempAminoAcid.transform.position = aaLocation;
             Vector2 aaOffset = tempStation.transform.GetChild(1).gameObject.transform.position - 
@@ -75,7 +75,7 @@ public class AAChain : MonoBehaviour
 
             stationQueue.Add(tempStation);
             aminoAcidQueue.Add(tempAminoAcid);
-            segmentSpacing += 4.8f;
+            segmentSpacing += 4.6f;
         }
     }
 
