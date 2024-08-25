@@ -132,8 +132,8 @@ public class BondManager : MonoBehaviour
             if (child.tag == "Bond")
             {
                 // remove destroyed objects from queue and set new heads
-                AAChain.stationQueue.Remove(obj);
-                AAChain.aminoAcidQueue.Remove(obj);
+                AAChain.stationList.Remove(obj);
+                AAChain.aminoAcidList.Remove(obj);
 
                 obj.GetComponent<BoxCollider2D>().enabled = false;
                 yield return new WaitForSeconds(0.1f);

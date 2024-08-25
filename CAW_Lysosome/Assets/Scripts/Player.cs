@@ -135,13 +135,13 @@ public class Player : MonoBehaviour
 
         // if there is only the last connection in a chain left when player destroys the bond, destroy the last object as well
         AAChain aaChainTemp = FindObjectOfType<AAChain>();
-        if (aaChainTemp.stationQueue.Count == 1)
+        if (aaChainTemp.stationList.Count == 1)
         {
             GameObject go = GameObject.FindGameObjectWithTag("last");
             StartCoroutine(FindObjectOfType<BondManager>().WaitForSecond(go));
             BondManager.SetBondsCompleted();
-            aaChainTemp.stationQueue.Clear();
-            aaChainTemp.aminoAcidQueue.Clear();
+            aaChainTemp.stationList.Clear();
+            aaChainTemp.aminoAcidList.Clear();
             aaChainTemp.SpawnChain();
         }
     }

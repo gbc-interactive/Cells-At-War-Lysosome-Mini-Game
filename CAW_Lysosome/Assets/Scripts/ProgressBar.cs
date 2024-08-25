@@ -6,8 +6,6 @@ using UnityEngine.UI;
 
 public class ProgressBar : MonoBehaviour
 {
-    [SerializeField] private float minimum = 0;
-    [SerializeField] private float maximum = 1;
     [SerializeField] private float currentFillAmount;
 
     [SerializeField] private Image starImage;

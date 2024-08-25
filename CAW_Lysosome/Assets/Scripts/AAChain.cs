@@ -2,12 +2,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.XR;
 using Random = UnityEngine.Random;
 
 
-// testing, maybe complete it and use in future
+// this replaces old SpawnAA.cs script
 public class AAChain : MonoBehaviour
 {
     [SerializeField] private int minChainSize = 3;
@@ -15,8 +16,8 @@ public class AAChain : MonoBehaviour
     [SerializeField] private GameObject stationPrefab;
     [SerializeField] private GameObject aminoAcidPrefab;
     [SerializeField] private GameObject[] aminoAcidPrefabList;
-    [SerializeField] public List<GameObject> stationQueue;
-    [SerializeField] public List<GameObject> aminoAcidQueue;
+    [SerializeField] public List<GameObject> stationList;
+    [SerializeField] public List<GameObject> aminoAcidList;
 
     // track head and tail of the chain
     [SerializeField] public GameObject stationHead;
@@ -24,11 +25,13 @@ public class AAChain : MonoBehaviour
     [SerializeField] public GameObject aminoAcidHead;
     [SerializeField] public GameObject aminoAcidTail;
 
+    private GameObject parent;
+
     // Start is called before the first frame update
     void Start()
     {
-        stationQueue = new List<GameObject>();
-        aminoAcidQueue = new List<GameObject>();
+        stationList = new List<GameObject>();
+        aminoAcidList = new List<GameObject>();
         SpawnChain();
     }
 
@@ -49,12 +52,17 @@ public class AAChain : MonoBehaviour
         int chainSize = Random.Range(minChainSize, maxChainSize);
         float segmentSpacing = 4.8f;
 
+        // creating an empty parent game object for all objects in the chain
+        parent = new GameObject();
+        parent.name = "ChainParent";
+
         for (int i = 0; i < chainSize; i++)
         {
             GameObject tempStation = Instantiate(stationPrefab);
             tempStation.transform.localScale *= 0.80f;
             tempStation.transform.position = new Vector3(tempStation.transform.position.x + segmentSpacing, 1.0f);
             Vector2 aaLocation = tempStation.transform.GetChild(1).gameObject.transform.position;
+            tempStation.transform.SetParent(parent.transform);
 
             // for the last segment in the protein, remove the bond and disable the bond collider
             if (i == chainSize - 1)
@@ -73,15 +81,22 @@ public class AAChain : MonoBehaviour
                                 tempAminoAcid.transform.GetChild(1).gameObject.transform.position;
             tempAminoAcid.transform.position = aaLocation + aaOffset;
 
-            stationQueue.Add(tempStation);
-            aminoAcidQueue.Add(tempAminoAcid);
+            stationList.Add(tempStation);
+            aminoAcidList.Add(tempAminoAcid);
             segmentSpacing += 4.6f;
+        }
+
+        // configure the joints
+        for (int i = 1; i < stationList.Count; i++)
+        {
+            HingeJoint2D joint = stationList[i].GetComponent<HingeJoint2D>();
+            joint.connectedBody = stationList[i - 1].GetComponent<Rigidbody2D>();
         }
     }
 
     private void MoveChain()
     {
-        foreach (var obj in stationQueue)
+        foreach (var obj in stationList)
         {
             obj.transform.position -= new Vector3(1.0f, 0.0f, 0.0f) * Time.deltaTime;
         }
@@ -90,9 +105,14 @@ public class AAChain : MonoBehaviour
     private void UpdateQueue()
     {
         // keep track of the first and last segment in the chain
-        stationTail = stationQueue.Last();
-        aminoAcidTail = aminoAcidQueue.Last();
-        stationHead = stationQueue[0];
-        aminoAcidHead = aminoAcidQueue[0];
+        stationTail = stationList.Last();
+        aminoAcidTail = aminoAcidList.Last();
+        stationHead = stationList[0];
+        aminoAcidHead = aminoAcidList[0];
+    }
+
+    public List<GameObject> GetStationList()
+    {
+        return stationList;
     }
 }
