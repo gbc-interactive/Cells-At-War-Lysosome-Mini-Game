@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.XR;
 using Random = UnityEngine.Random;
@@ -26,6 +27,9 @@ public class AAChain : MonoBehaviour
     [SerializeField] public GameObject aminoAcidTail;
 
     private GameObject parent;
+    private GameObject anchor;
+    [SerializeField] private Vector3 destination;
+    [SerializeField] private float speed = 10.0f;
 
     // Start is called before the first frame update
     void Start()
@@ -39,7 +43,15 @@ public class AAChain : MonoBehaviour
     void Update()
     {
         UpdateQueue();
-        MoveChain();
+        ChainMovement();
+        
+
+        Debug.DrawLine(stationHead.transform.position, destination, Color.green);
+    }
+
+    void FixedUpdate()
+    {
+
     }
 
     private GameObject RandomAminoAcid()
@@ -58,11 +70,18 @@ public class AAChain : MonoBehaviour
 
         for (int i = 0; i < chainSize; i++)
         {
+            
             GameObject tempStation = Instantiate(stationPrefab);
             tempStation.transform.localScale *= 0.80f;
             tempStation.transform.position = new Vector3(tempStation.transform.position.x + segmentSpacing, 1.0f);
             Vector2 aaLocation = tempStation.transform.GetChild(1).gameObject.transform.position;
             tempStation.transform.SetParent(parent.transform);
+
+            if (i == 0)
+            {
+                var temp = tempStation.gameObject.GetComponent<HingeJoint2D>();
+                Destroy(temp);
+            }
 
             // for the last segment in the protein, remove the bond and disable the bond collider
             if (i == chainSize - 1)
@@ -114,5 +133,50 @@ public class AAChain : MonoBehaviour
     public List<GameObject> GetStationList()
     {
         return stationList;
+    }
+
+    private Vector2 GetNewDestinationPoint()
+    {
+        // Get the square min and max coordinates and pick a random point inside it for the head of chain to move towards
+        SpriteRenderer areaGameObject = UnityEngine.GameObject.Find("ChainMovementPointArea").GetComponent<SpriteRenderer>();
+        Vector2 minBoundArea = areaGameObject.bounds.min;
+        Vector2 maxBoundArea = areaGameObject.bounds.max;
+        destination = new Vector3(Random.Range(minBoundArea.x, maxBoundArea.x), Random.Range(minBoundArea.y, maxBoundArea.y), 0.0f);
+
+        return destination;
+    }
+
+    private void ChainMovement()
+    {
+        // if the chain's head isn't close enough to the destination point, move towards the destination
+        Vector3 chainHeadPosition = stationList[0].transform.position;
+        Vector3 vectorToDestination = destination - chainHeadPosition; // heading
+        float distanceToDestination = Vector2.Distance(destination, chainHeadPosition); // distance
+        Vector3 directionToDestinationNormalized = vectorToDestination / distanceToDestination; // normalized direction
+        
+        Debug.Log(distanceToDestination);
+
+        if (stationHead != null)
+        {
+            Rigidbody2D stationHeadRB = stationHead.GetComponent<Rigidbody2D>();
+            
+            //stationHeadRB.velocity += new Vector2(directionToDestinationNormalized.x * Time.deltaTime * speed,
+            //directionToDestinationNormalized.y * Time.deltaTime * speed);
+
+             stationHeadRB.AddForceAtPosition(new Vector2(
+                 directionToDestinationNormalized.x * Time.deltaTime * speed,
+                 directionToDestinationNormalized.y * Time.deltaTime * speed), stationHead.gameObject.transform.position, ForceMode2D.Impulse);
+        }
+
+        // pick a new point to move to when the head gets close enough
+        if (distanceToDestination < 2.0f)
+        {
+            foreach (var stationGameObject in stationList)
+            {
+                stationGameObject.GetComponent<Rigidbody2D>().velocity *= 0.2f;
+                stationGameObject.GetComponent<Rigidbody2D>().angularVelocity *= 0.2f;
+            }
+            GetNewDestinationPoint();
+        }
     }
 }

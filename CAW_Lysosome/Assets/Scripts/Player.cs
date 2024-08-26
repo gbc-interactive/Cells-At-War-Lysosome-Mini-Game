@@ -217,10 +217,10 @@ public class Player : MonoBehaviour
         playerMaterial.color = playerColour;
         yield return new WaitForSeconds(1.0f);
 
-        Debug.Log(playerMaterial.color.a);
+        Debug.Log("player opacity: " + playerMaterial.color.a);
 
         // if players opacity is less or equal to 0.05 aka 5% (adjust accordingly) then lose game
-        if (playerColour.a <= 0.05f)
+        if (playerColour.a <= 0.01f)
         {
             SceneManager.LoadScene("LoseScene");
         }

@@ -1343,6 +1343,8 @@ MonoBehaviour:
   stationTail: {fileID: 0}
   aminoAcidHead: {fileID: 0}
   aminoAcidTail: {fileID: 0}
+  destination: {x: 0, y: 0, z: 0}
+  speed: 10
 --- !u!4 &392263295
 Transform:
   m_ObjectHideFlags: 0
@@ -2627,8 +2629,8 @@ Transform:
   m_GameObject: {fileID: 1535383210}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.1607, y: -0.5353, z: 0}
-  m_LocalScale: {x: 22.794315, y: 10.245338, z: 1}
+  m_LocalPosition: {x: -0.1434, y: -0.1202, z: 0}
+  m_LocalScale: {x: 13.073548, y: 8.1694355, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
