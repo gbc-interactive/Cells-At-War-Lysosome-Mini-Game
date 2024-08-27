@@ -8,6 +8,13 @@ public class BController : MonoBehaviour
     public void OnPlayButtonPressed()
     {
         SceneManager.LoadScene("GameScene");
+        Cursor.visible = false;
+    }
+
+    public void OnBackToCellMapButtonPressed()
+    {
+        // in future this should go to cell map, acts as a quit button currently
+        Application.Quit();
     }
 
     public void OnReplayButtonPressed()

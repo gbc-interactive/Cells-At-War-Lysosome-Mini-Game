@@ -14,35 +14,40 @@ public class PauseMenu : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (gameIsPaused)
+            switch (gameIsPaused)
             {
-                Resume();
-            }
-            else
-            {
-                Pause();
+                case true:
+                    Resume();
+                    break;
+                case false:
+                    Pause();
+                    break;
             }
         }
     }
 
     public void Resume()
     {
-        pauseMenu.SetActive(false);
         Time.timeScale = 1.0f;
         gameIsPaused = false;
+        pauseMenu.SetActive(false);
+        Cursor.visible = false;
     }
 
     private void Pause()
     {
         pauseMenu.SetActive(true);
-        Time.timeScale = 0.0f;
         gameIsPaused = true;
+        Time.timeScale = 0.0f;
+        Cursor.visible = true;
     }
 
     public void LoadMenu()
     {
         Time.timeScale = 1.0f;
         SceneManager.LoadScene("MenuScene");
+        gameIsPaused = false;
+        Cursor.visible = true;
     }
 
     public void QuitGame()

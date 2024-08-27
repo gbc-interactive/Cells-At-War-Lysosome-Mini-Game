@@ -154,7 +154,7 @@ public class AAChain : MonoBehaviour
         float distanceToDestination = Vector2.Distance(destination, chainHeadPosition); // distance
         Vector3 directionToDestinationNormalized = vectorToDestination / distanceToDestination; // normalized direction
         
-        Debug.Log(distanceToDestination);
+        Debug.Log("distance to target: " + distanceToDestination);
 
         if (stationHead != null)
         {
