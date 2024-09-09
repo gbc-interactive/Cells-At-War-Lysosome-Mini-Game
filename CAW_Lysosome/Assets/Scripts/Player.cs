@@ -18,6 +18,7 @@ public class Player : MonoBehaviour
     [SerializeField] UnityEngine.UI.Image clicksBlock;
     [SerializeField] UnityEngine.UI.Image timeLeftBlock;
     [SerializeField] UnityEngine.UI.Image TimeBeforeStunBlock;
+    [SerializeField] private Score scoreGameObject;
 
     [SerializeField] int clicksHigherThan = 10;
     [SerializeField] int timeForDecreasing = 2000;
@@ -122,6 +123,7 @@ public class Player : MonoBehaviour
 
     public void FinalizeDestructionOfBond()
     {
+        scoreGameObject.AddScore(1);
         animator.Play("expl");
         StartCoroutine(WaitForSec());
 

@@ -29,7 +29,7 @@ public class AAChain : MonoBehaviour
     private GameObject parent;
     private GameObject anchor;
     [SerializeField] private Vector3 destination;
-    [SerializeField] private float speed = 10.0f;
+    [SerializeField] private float speed = 5.0f;
 
     // Start is called before the first frame update
     void Start()
@@ -171,6 +171,7 @@ public class AAChain : MonoBehaviour
         // pick a new point to move to when the head gets close enough
         if (distanceToDestination < 2.0f)
         {
+            // reducing velocity when reaching point
             foreach (var stationGameObject in stationList)
             {
                 stationGameObject.GetComponent<Rigidbody2D>().velocity *= 0.2f;

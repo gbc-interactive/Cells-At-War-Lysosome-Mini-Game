@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -9,7 +10,7 @@ public class TimerScript : MonoBehaviour
     [SerializeField] float TimeLeft;
     [SerializeField] bool TimerOn = false;
 
-    public Text timerText;
+    [SerializeField] private GameObject timerText;
     static bool gameStart;
 
     float minutes;
@@ -17,7 +18,7 @@ public class TimerScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-    
+        
     }
 
     public void SetGameStart(bool b)
@@ -67,6 +68,7 @@ public class TimerScript : MonoBehaviour
         minutes = Mathf.FloorToInt(currentTime / 60);
         seconds = Mathf.FloorToInt(currentTime % 60);
 
-        timerText.text = string.Format("{0:00} : {1:00}", minutes, seconds);
+        timerText.GetComponent<TextMeshProUGUI>().SetText(string.Format("{0:00} : {1:00}", minutes, seconds));
+        
     }
 }
