@@ -26,7 +26,7 @@ public class Player : MonoBehaviour
 
     [SerializeField] GameObject currentBond;
 
-    bool isAtPressStation;
+    public bool isAtPressStation;
     KeyCode currentKey;
     bool callFuncOnce;
     float timeBeforeStun = 1500f;
@@ -60,11 +60,11 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     public void Update()
     {
+        ChompAnimation();
         // left click mouse to destroy bond
         if (Input.GetMouseButtonDown(0) && isAtPressStation)
         {
             clicks++;
-            ChompAnimation();
             if (clicks >= clicksHigherThan)
             {
                 FinalizeDestructionOfBond();
@@ -204,7 +204,6 @@ public class Player : MonoBehaviour
     {
         if (collision.gameObject.tag == "Station")
         {
-            // reset red bar to 0 if player stops colliding with that bond
             time = 0.0f;
             isAtPressStation = false;
         }
@@ -232,6 +231,9 @@ public class Player : MonoBehaviour
     {
         switch (clicks)
         {
+            case 0:
+                animator.Play("idle");
+                break;
             case 1:
                 animator.Play("click1");
                 break;
