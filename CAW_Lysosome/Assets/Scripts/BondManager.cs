@@ -139,6 +139,8 @@ public class BondManager : MonoBehaviour
                 yield return new WaitForSeconds(0.1f);
                 Destroy(child.gameObject);
                 CreateExplosion(obj);
+                SoundManager.Instance.PlaySound("Explosion");
+                SoundManager.Instance.SetVolume("Explosion", 1.0f);
                 yield return new WaitForSeconds(2.0f);
                 Destroy(obj);
             }

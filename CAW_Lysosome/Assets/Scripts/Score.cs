@@ -23,5 +23,7 @@ public class Score : MonoBehaviour
     public void AddScore(int scoreAmountToAdd)
     {
         score += scoreAmountToAdd;
+        SoundManager.Instance.PlaySound("AddScore");
+        SoundManager.Instance.SetVolume("AddScore", 1.0f);
     }
 }

@@ -68,6 +68,9 @@ public class AAChain : MonoBehaviour
         parent = new GameObject();
         parent.name = "ChainParent";
 
+        SoundManager.Instance.PlaySound("SpawnAA");
+        SoundManager.Instance.SetVolume("SpawnAA", 1.0f);
+
         for (int i = 0; i < chainSize; i++)
         {
             

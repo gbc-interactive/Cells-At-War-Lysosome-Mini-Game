@@ -65,6 +65,9 @@ public class Player : MonoBehaviour
         if (Input.GetMouseButtonDown(0) && isAtPressStation)
         {
             clicks++;
+            SoundManager.Instance.PlaySound("Comp");
+            SoundManager.Instance.SetVolume("Comp", 1.0f);
+
             if (clicks >= clicksHigherThan)
             {
                 FinalizeDestructionOfBond();
@@ -125,6 +128,8 @@ public class Player : MonoBehaviour
     {
         scoreGameObject.AddScore(1);
         animator.Play("expl");
+        SoundManager.Instance.PlaySound("BreakingBond");
+        SoundManager.Instance.SetVolume("BreakingBond", 1.0f);
         StartCoroutine(WaitForSec());
 
         StartCoroutine(FindObjectOfType<BondManager>().SendBondToLeft(currentBond));

@@ -8,6 +8,8 @@ public class BController : MonoBehaviour
     public void OnPlayButtonPressed()
     {
         SceneManager.LoadScene("GameScene");
+        SoundManager.Instance.PlayMusic("GameMusic");
+        SoundManager.Instance.SetMusicVolume(1.0f);
         Cursor.visible = false;
     }
 
@@ -20,10 +22,14 @@ public class BController : MonoBehaviour
     public void OnReplayButtonPressed()
     {
         SceneManager.LoadScene("GameScene");
+        SoundManager.Instance.PlayMusic("GameMusic");
+        SoundManager.Instance.SetMusicVolume(1.0f);
     }
 
     public void OnMainMenuButtonPressed()
     {
         SceneManager.LoadScene("MenuScene");
+        SoundManager.Instance.PlayMusic("MainMenuMusic");
+        SoundManager.Instance.SetMusicVolume(1.0f);
     }
 }

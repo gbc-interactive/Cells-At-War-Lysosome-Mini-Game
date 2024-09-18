@@ -29,6 +29,9 @@ public class TimerScript : MonoBehaviour
         {
             TimerOn = true;
         }
+
+        SoundManager.Instance.PlayMusic("GameMusic");
+        SoundManager.Instance.SetMusicVolume(1.0f);
     }
 
     public void IncreaseTimer(float addedTime)
@@ -58,6 +61,8 @@ public class TimerScript : MonoBehaviour
         if (TimeLeft < 0.1f)
         {
             SceneManager.LoadScene("WinScene");
+            SoundManager.Instance.PlaySound("Win");
+            SoundManager.Instance.SetVolume("Win", 0.5f);
         }
     }
 
