@@ -1210,7 +1210,7 @@ GameObject:
   - component: {fileID: 392263295}
   - component: {fileID: 392263294}
   m_Layer: 0
-  m_Name: NewChainSpawnerTest
+  m_Name: NewChainSpawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1260,7 +1260,7 @@ MonoBehaviour:
   aminoAcidHead: {fileID: 0}
   aminoAcidTail: {fileID: 0}
   destination: {x: 0, y: 0, z: 0}
-  speed: 10
+  speed: 20
 --- !u!4 &392263295
 Transform:
   m_ObjectHideFlags: 0
@@ -2871,7 +2871,7 @@ GameObject:
   - component: {fileID: 1690652153}
   - component: {fileID: 1690652152}
   m_Layer: 0
-  m_Name: Camera
+  m_Name: Camera(For BlackSidebars)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
