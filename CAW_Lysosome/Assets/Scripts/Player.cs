@@ -23,6 +23,7 @@ public class Player : MonoBehaviour
     [SerializeField] int clicksHigherThan = 10;
     [SerializeField] int timeForDecreasing = 2000;
     [SerializeField] private float addedToMultiplierTimeDecrease = 0.1f;
+    [SerializeField] private float playerSpeed = 15.0f;
 
     [SerializeField] GameObject currentBond;
 
@@ -38,9 +39,7 @@ public class Player : MonoBehaviour
     float time_ForStun;
     float multiplierForTimeDecrease = 0;
     float timeIncrease;
-
     private Vector3 mouseWorldPosition;
-
     private Material playerMaterial;
 
     // Start is called before the first frame update
@@ -61,8 +60,8 @@ public class Player : MonoBehaviour
     public void Update()
     {
         ChompAnimation();
-        // left click mouse to destroy bond
-        if (Input.GetMouseButtonDown(0) && isAtPressStation)
+        // left click mouse or space to destroy bond
+        if ((Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space)) && isAtPressStation)
         {
             clicks++;
             if (clicks >= clicksHigherThan)
@@ -70,17 +69,28 @@ public class Player : MonoBehaviour
                 FinalizeDestructionOfBond();
             }
         }
-        
 
         // player position set to the mouse position 
-        mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        transform.position = mouseWorldPosition;
-
+        if (Input.GetAxis("Mouse X") != 0 || Input.GetAxis("Mouse Y") != 0)
+        {
+            mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            transform.position = mouseWorldPosition;
+        }
+        else
+        {
+            PlayerKeyboardMovement();
+        }
+        
         BondStationCheck();
-
         clicksBlock.fillAmount = clicks / 10f;
-
         StartCoroutine(FadePlayer());
+    }
+
+    private void PlayerKeyboardMovement()
+    {
+        float inputX = Input.GetAxisRaw("Horizontal");
+        float inputY = Input.GetAxisRaw("Vertical");
+        transform.position += Time.deltaTime * playerSpeed * new Vector3(inputX, inputY, 0.0f).normalized;
     }
 
     private void BondStationCheck()
