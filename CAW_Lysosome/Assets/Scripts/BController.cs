@@ -7,7 +7,7 @@ public class BController : MonoBehaviour
 {
     public void OnPlayButtonPressed()
     {
-        SceneManager.LoadScene("GameScene");
+        SceneManager.LoadScene("Level 1");
         Cursor.visible = false;
     }
 
@@ -19,7 +19,7 @@ public class BController : MonoBehaviour
 
     public void OnReplayButtonPressed()
     {
-        SceneManager.LoadScene("GameScene");
+        SceneManager.LoadScene("Level 1");
     }
 
     public void OnMainMenuButtonPressed()
