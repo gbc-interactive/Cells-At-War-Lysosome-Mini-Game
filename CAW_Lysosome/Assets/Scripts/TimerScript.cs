@@ -7,10 +7,10 @@ using UnityEngine.UI;
 
 public class TimerScript : MonoBehaviour
 {
+    [SerializeField] private GameObject timerText;
     [SerializeField] float TimeLeft;
     [SerializeField] bool TimerOn = false;
 
-    [SerializeField] private GameObject timerText;
     static bool gameStart;
 
     float minutes;
@@ -43,8 +43,6 @@ public class TimerScript : MonoBehaviour
         {
             Timer();
         }
-        else
-            return;
     }
 
     private void Timer()
@@ -57,7 +55,8 @@ public class TimerScript : MonoBehaviour
 
         if (TimeLeft < 0.1f)
         {
-            SceneManager.LoadScene("WinScene");
+            SceneManager.LoadScene("LevelOverScene", LoadSceneMode.Additive);
+            TimeLeft = 10000;
         }
     }
 

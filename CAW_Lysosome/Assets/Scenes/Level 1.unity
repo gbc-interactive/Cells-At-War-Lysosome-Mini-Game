@@ -830,9 +830,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f706443af3f1734e8a4af1008c71a8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timerText: {fileID: 337441170}
   TimeLeft: 120
   TimerOn: 0
-  timerText: {fileID: 337441170}
 --- !u!4 &283951182
 Transform:
   m_ObjectHideFlags: 0
@@ -3403,6 +3403,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f74bb4bf0e9a27a4e86558c6911882c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  score: 0
 --- !u!114 &1959736385
 MonoBehaviour:
   m_ObjectHideFlags: 0

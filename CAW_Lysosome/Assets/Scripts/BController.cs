@@ -5,9 +5,9 @@ using UnityEngine.SceneManagement;
 
 public class BController : MonoBehaviour
 {
-    public void OnPlayButtonPressed()
+    public void OnContinueButtonPressed()
     {
-        SceneManager.LoadScene("Level 1");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex+1);
         Cursor.visible = false;
     }
 
